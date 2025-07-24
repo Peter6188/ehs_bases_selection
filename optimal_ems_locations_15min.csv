@@ -1,0 +1,13 @@
+EHS_Base_ID,Latitude,Longitude,Region,Coverage_Area
+EHS-01,44.6488,-63.3752,Halifax Metro East,"Halifax, Dartmouth"
+EHS-02,44.5731,-63.7822,Halifax Metro West,"Bedford, Sackville"
+EHS-03,45.0731,-64.4822,Kentville/Valley,Kings County
+EHS-04,44.3731,-64.5322,Bridgewater,South Shore
+EHS-05,43.8331,-66.1137,Yarmouth,Southwest Nova
+EHS-06,44.6231,-65.7637,Digby,Bay of Fundy
+EHS-07,45.3682,-63.2811,Truro,Central Nova
+EHS-08,45.5882,-62.6511,New Glasgow,Pictou County
+EHS-09,45.6182,-61.9911,Antigonish,Eastern Mainland
+EHS-10,46.1351,-60.1831,Sydney,Cape Breton Regional
+EHS-11,46.2051,-60.2531,North Sydney,Northern Cape Breton
+EHS-12,46.1971,-59.9571,Glace Bay,Eastern Cape Breton
