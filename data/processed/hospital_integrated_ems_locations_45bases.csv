@@ -1,0 +1,46 @@
+EHS_Base_ID,Latitude,Longitude,Region,Coverage_Area,Population_Served,Communities_Served,Avg_Coverage_Gap_Score,Nearest_Hospital,Hospital_Distance_km,Hospital_Performance,Priority_Level
+EHS_Base_01,45.11003526049385,-63.42284644735509,Cluster_1,15km_radius,4296,2,0.488,Colchester East Hants Health Centre,29.7,0.624,Medium
+EHS_Base_02,45.92787063841072,-61.060843558004144,Cluster_2,15km_radius,897,2,0.535,Victoria County Memorial Hospital,38.9,0.669,Medium
+EHS_Base_03,44.618161056599654,-65.16437158071518,Cluster_3,15km_radius,3049,1,0.544,Soldiers Memorial Hospital,38.3,0.667,Medium
+EHS_Base_04,44.68372225391496,-64.37901483826253,Cluster_4,15km_radius,10804,3,0.524,Fishermen's Memorial Hospital,34.0,0.669,Medium
+EHS_Base_05,43.783816831135724,-65.23646502423075,Cluster_5,15km_radius,6456,3,0.405,Roseway Hospital,8.9,0.668,Medium
+EHS_Base_06,45.51762292288424,-62.383834500706485,Cluster_6,15km_radius,8386,1,0.453,Aberdeen Hospital,29.4,0.693,Medium
+EHS_Base_07,45.76061515964071,-63.827776840884894,Cluster_7,15km_radius,11147,3,0.438,North Cumberland Memorial Hospital,21.5,0.67,Medium
+EHS_Base_08,45.069272245913176,-64.49891798662155,Cluster_8,15km_radius,26929,3,0.404,Valley Regional Hospital,1.5,0.656,Medium
+EHS_Base_09,43.88332497069602,-66.05792267227925,Cluster_9,15km_radius,17077,3,0.366,Yarmouth Regional Hospital,7.9,0.681,Low
+EHS_Base_10,45.584608194715,-61.74813921564745,Cluster_10,15km_radius,6510,2,0.427,St. Martha’s Regional Hospital,26.4,0.707,Medium
+EHS_Base_11,46.490068227758144,-60.9354861348657,Cluster_11,15km_radius,5207,1,0.454,Sacred Heart Community Health Centre,17.2,0.65,Medium
+EHS_Base_12,46.04989208930729,-60.23122858597148,Cluster_12,15km_radius,94797,2,0.48,Cape Breton Regional Hospital,9.4,0.56,Medium
+EHS_Base_13,45.585670461559815,-62.67765729884713,Cluster_13,15km_radius,29118,7,0.357,Aberdeen Hospital,4.1,0.693,Low
+EHS_Base_14,44.24454209589379,-64.93157910261658,Cluster_14,15km_radius,10501,4,0.525,Queens General Hospital,34.0,0.667,Medium
+EHS_Base_15,44.412019165423516,-64.46301311626567,Cluster_15,15km_radius,37795,4,0.367,South Shore Regional Hospital,6.2,0.659,Low
+EHS_Base_16,44.86665974975977,-63.15001722702976,Cluster_16,15km_radius,439819,1,0.394,Twin Oaks Memorial Hospital,9.3,0.669,Low
+EHS_Base_17,44.510704116207194,-65.69926564926607,Cluster_17,15km_radius,9384,3,0.419,Digby General Hospital,13.6,0.666,Medium
+EHS_Base_18,44.97739530217712,-62.67206116365587,Cluster_18,15km_radius,30,2,0.406,Eastern Shore Memorial Hospital,16.7,0.67,Medium
+EHS_Base_19,45.09868739790781,-63.70148671693974,Cluster_19,15km_radius,22892,1,0.593,Integrated Chronic Care Service,33.8,0.607,Medium
+EHS_Base_20,45.959925604049275,-60.61885057720465,Cluster_20,15km_radius,3521,1,0.457,Victoria County Memorial Hospital,21.8,0.669,Medium
+EHS_Base_21,43.53629262900408,-65.61133039856736,Cluster_21,15km_radius,7248,2,0.557,Roseway Hospital,41.0,0.668,Medium
+EHS_Base_22,45.819477291955316,-61.27412686565686,Cluster_22,15km_radius,3167,1,0.485,Strait - Richmond Hospital,23.2,0.667,Medium
+EHS_Base_23,45.02089508945566,-64.71580752487912,Cluster_23,15km_radius,25553,3,0.385,Western Kings Memorial Health Centre,2.9,0.647,Low
+EHS_Base_24,45.549000090167056,-63.26512021212877,Cluster_24,15km_radius,19806,1,0.452,Lillian Fraser Memorial Hospital,18.4,0.67,Medium
+EHS_Base_25,46.63887063350517,-60.54756008829008,Cluster_25,15km_radius,2673,1,0.513,Buchanan Memorial Community Health Centre,30.4,0.65,Medium
+EHS_Base_26,44.21447935218582,-66.0006033041922,Cluster_26,15km_radius,7678,1,0.602,Yarmouth Regional Hospital,42.6,0.681,High
+EHS_Base_27,44.64990593006995,-63.4832508613672,Cluster_27,15km_radius,208,1,0.459,Dartmouth General Hospital,7.2,0.57,Medium
+EHS_Base_28,45.0330796176432,-64.26199161922105,Cluster_28,15km_radius,29941,4,0.378,Eastern Kings Memorial Community Health Centre,13.5,0.647,Low
+EHS_Base_29,45.69842099094119,-60.67338612532285,Cluster_29,15km_radius,2015,2,0.617,St. Anne's Community and Nursing,44.9,0.587,High
+EHS_Base_30,44.72359589573705,-65.50390228941252,Cluster_30,15km_radius,6525,3,0.363,Annapolis Community Health Centre,1.5,0.65,Low
+EHS_Base_31,43.92662092653887,-65.71760926031237,Cluster_31,15km_radius,7870,1,0.547,Yarmouth Regional Hospital,45.6,0.681,Medium
+EHS_Base_32,45.705605349656764,-64.17164755832658,Cluster_32,15km_radius,16190,2,0.361,Cumberland Regional Health Care Centre,11.2,0.683,Low
+EHS_Base_33,45.50067599659516,-64.57032754899332,Cluster_33,15km_radius,3201,1,0.475,South Cumberland Community Care Centre,29.0,0.67,Medium
+EHS_Base_34,44.91759255476578,-65.13369066707273,Cluster_34,15km_radius,11678,3,0.376,Soldiers Memorial Hospital,8.9,0.667,Low
+EHS_Base_35,45.469672548924045,-63.78019321556339,Cluster_35,15km_radius,3762,1,0.525,All Saints Springhill Hospital,36.2,0.67,Medium
+EHS_Base_36,46.12794612474523,-60.84796625554546,Cluster_36,15km_radius,4768,2,0.403,Victoria County Memorial Hospital,10.7,0.669,Medium
+EHS_Base_37,45.35379312473309,-61.53734017748428,Cluster_37,15km_radius,4585,1,0.37,Guysborough Memorial Hospital,6.3,0.67,Low
+EHS_Base_38,45.614124775830795,-61.38238288551523,Cluster_38,15km_radius,3837,2,0.416,Strait - Richmond Hospital,17.7,0.667,Medium
+EHS_Base_39,45.60040360692235,-61.044935751682125,Cluster_39,15km_radius,6899,2,0.427,St. Anne's Community and Nursing,10.0,0.587,Medium
+EHS_Base_40,45.19109465178321,-62.16954145055515,Cluster_40,15km_radius,2161,1,0.436,St. Mary’s Memorial Hospital,21.4,0.667,Medium
+EHS_Base_41,44.732041390010814,-63.79736489463545,Cluster_41,15km_radius,15,1,0.475,Cobequid Community Health Centre,15.6,0.592,Medium
+EHS_Base_42,45.305867963816745,-63.22093208763659,Cluster_42,15km_radius,26351,3,0.424,Colchester East Hants Health Centre,10.4,0.624,Medium
+EHS_Base_43,45.6269124807833,-62.017459445775614,Cluster_43,15km_radius,13619,2,0.312,St. Martha’s Regional Hospital,3.9,0.707,Low
+EHS_Base_44,46.05644529118825,-61.31325537552723,Cluster_44,15km_radius,4865,1,0.459,Inverness Consolidated Memorial Hospital,19.0,0.668,Medium
+EHS_Base_45,45.66095611235854,-62.92825929702166,Cluster_45,15km_radius,6153,1,0.455,Sutherland Harris Memorial Hospital,22.4,0.647,Medium
