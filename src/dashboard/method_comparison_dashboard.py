@@ -785,47 +785,48 @@ def render_tab_content(active_tab):
                         html.H5("📋 Project Background", className="text-dark"),
                         html.P([
                             "This project analyzes Emergency Health Services (EHS) optimization in Nova Scotia using advanced ",
-                            "machine learning techniques. We compare two distinct methodologies for optimal EMS base placement ",
-                            "to improve emergency response coverage and efficiency."
+                            "machine learning techniques. We compare two distinct K-means clustering methodologies for optimal EMS base placement ",
+                            "to improve emergency response coverage and efficiency based on the critical 15-minute response time standard."
                         ], className="text-muted"),
                         
-                        html.H5("🎯 Objectives", className="text-dark mt-4"),
-                        html.Ul([
-                            html.Li("Optimize EMS base locations for maximum population coverage"),
-                            html.Li("Integrate hospital performance data into placement decisions"),
-                            html.Li("Compare traditional vs. hospital-integrated optimization approaches"),
-                            html.Li("Provide evidence-based recommendations for EHS resource allocation")
-                        ], className="text-muted"),
+                        html.H5("🔬 K-means Methodology & 15-Minute Coverage Standard", className="text-dark mt-4"),
+                        dbc.Alert([
+                            html.H6("⏰ 15-Minute Response Time Assumption", className="text-primary mb-2"),
+                            html.P([
+                                "Our analysis is built on the ", html.Strong("15-minute emergency response time standard"), 
+                                ", which translates to approximately 15 kilometers distance for emergency vehicles. This assumption is based on:"
+                            ], className="mb-2"),
+                            html.Ul([
+                                html.Li("Emergency medical service best practices for rural and urban areas"),
+                                html.Li("Nova Scotia's geographic characteristics and road network constraints"), 
+                                html.Li("Clinical evidence that response times under 15 minutes significantly improve patient outcomes"),
+                                html.Li("Balance between comprehensive coverage and resource efficiency")
+                            ], className="small mb-2"),
+                            html.P([
+                                "This 15-minute threshold serves as the ", html.Strong("optimization constraint"), 
+                                " ensuring that EMS bases are positioned to reach the maximum population within this critical timeframe."
+                            ], className="mb-0 small text-muted")
+                        ], color="info", className="mb-3"),
                         
-                        html.H5("📊 Data Sources", className="text-dark mt-4"),
-                        html.Ul([
-                            html.Li("Nova Scotia population and geographic data (92 communities)"),
-                            html.Li("Hospital performance metrics (48 hospitals)"),
-                            html.Li("Emergency Department Offload Interval data"),
-                            html.Li("Current EHS infrastructure information")
-                        ], className="text-muted")
-                    ])
-                ])
-            ], width=12),
-            
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardHeader([
-                        html.H4("🔬 Methodology Comparison", className="text-primary mb-3"),
-                    ]),
-                    dbc.CardBody([
+                        html.H5("🤖 Two-Phase K-means Analysis Approach", className="text-dark mt-4"),
                         dbc.Row([
                             dbc.Col([
                                 dbc.Card([
                                     dbc.CardBody([
-                                        html.H5("Method 1: Population-Only K-means", className="text-info"),
+                                        html.H6("📊 Method 1: Population-Only K-means", className="text-info"),
+                                        html.P([
+                                            html.Strong("Traditional Approach"), " - Uses classic K-means clustering algorithm with:"
+                                        ], className="small mb-2"),
                                         html.Ul([
-                                            html.Li("Traditional K-means clustering approach"),
-                                            html.Li("Based solely on population density"),
-                                            html.Li("60 EMS bases required for coverage"),
-                                            html.Li("94.6% population coverage within 15km"),
-                                            html.Li("No consideration of existing healthcare infrastructure")
-                                        ], className="small")
+                                            html.Li("Population density as the primary weighting factor"),
+                                            html.Li("Geographic coordinates (latitude, longitude) as feature space"),
+                                            html.Li("Iterative optimization to minimize within-cluster sum of squares"),
+                                            html.Li("60 optimal clusters (EMS bases) determined through coverage analysis"),
+                                            html.Li("Population-weighted centroids for equitable service distribution")
+                                        ], className="small mb-2"),
+                                        html.P([
+                                            html.Strong("Key Insight:"), " Pure geographic optimization based on population distribution patterns."
+                                        ], className="small text-muted mb-0")
                                     ])
                                 ], color="info", outline=True)
                             ], width=6),
@@ -833,21 +834,79 @@ def render_tab_content(active_tab):
                             dbc.Col([
                                 dbc.Card([
                                     dbc.CardBody([
-                                        html.H5("Method 2: Hospital-Performance-Integrated", className="text-danger"),
+                                        html.H6("🏥 Method 2: Hospital-Performance-Integrated K-means", className="text-danger"),
+                                        html.P([
+                                            html.Strong("Advanced Approach"), " - Enhanced K-means with healthcare infrastructure:"
+                                        ], className="small mb-2"),
                                         html.Ul([
-                                            html.Li("Advanced weighted K-means with hospital data"),
-                                            html.Li("Integrates hospital performance metrics"),
-                                            html.Li("45 EMS bases with strategic placement"),
-                                            html.Li("96.7% population coverage within 15km"),
-                                            html.Li("Priority-based deployment strategy")
-                                        ], className="small")
+                                            html.Li("Multi-dimensional feature space including hospital performance metrics"),
+                                            html.Li("ED Offload Interval data integrated as clustering weights"),
+                                            html.Li("Coverage gap analysis for strategic placement prioritization"),
+                                            html.Li("45 optimal clusters achieving superior coverage efficiency"),
+                                            html.Li("Hospital proximity and performance as optimization factors")
+                                        ], className="small mb-2"),
+                                        html.P([
+                                            html.Strong("Key Innovation:"), " Healthcare system awareness in EMS placement decisions."
+                                        ], className="small text-muted mb-0")
                                     ])
                                 ], color="danger", outline=True)
                             ], width=6)
-                        ])
+                        ], className="mb-3"),
+                        
+                        html.H5("⚙️ Technical Implementation", className="text-dark mt-4"),
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H6("🔧 Algorithm Details", className="text-success"),
+                                html.Ul([
+                                    html.Li([
+                                        html.Strong("Distance Calculation:"), " Haversine formula for great-circle distances between coordinates"
+                                    ]),
+                                    html.Li([
+                                        html.Strong("Convergence Criteria:"), " Iterative optimization until cluster centroids stabilize"
+                                    ]),
+                                    html.Li([
+                                        html.Strong("Population Weighting:"), " Community population counts influence cluster assignment"
+                                    ]),
+                                    html.Li([
+                                        html.Strong("Coverage Validation:"), " Post-optimization analysis ensures 15km constraint compliance"
+                                    ]),
+                                    html.Li([
+                                        html.Strong("Performance Metrics:"), " Coverage percentage, efficiency ratios, and resource allocation analysis"
+                                    ])
+                                ], className="small mb-0")
+                            ])
+                        ], color="success", outline=True),
+                        
+                        html.H5("🎯 Research Objectives", className="text-dark mt-4"),
+                        html.Ul([
+                            html.Li("Apply K-means clustering algorithms to optimize EMS base locations for maximum population coverage"),
+                            html.Li("Validate the 15-minute response time assumption across Nova Scotia's diverse geographic regions"),
+                            html.Li("Compare traditional population-based vs. hospital-performance-integrated K-means approaches"),
+                            html.Li("Quantify efficiency gains through advanced clustering methodology integration"),
+                            html.Li("Provide evidence-based recommendations for EHS resource allocation and strategic planning")
+                        ], className="text-muted"),
+                        
+                        html.H5("📊 Data Sources & Technical Specifications", className="text-dark mt-4"),
+                        html.Ul([
+                            html.Li([
+                                html.Strong("Nova Scotia Population Data:"), " 92 communities with geographic coordinates (latitude, longitude) and population counts for K-means feature vectors"
+                            ]),
+                            html.Li([
+                                html.Strong("Hospital Performance Metrics:"), " 48 hospitals with Emergency Department Offload Interval data for advanced clustering weights"
+                            ]),
+                            html.Li([
+                                html.Strong("Emergency Health Services Data:"), " Historical performance data (2021-2023) across 5 health zones for validation and benchmarking"
+                            ]),
+                            html.Li([
+                                html.Strong("Geographic Framework:"), " Coordinate transformation from Statistics Canada Lambert projection to WGS84 for distance calculations"
+                            ]),
+                            html.Li([
+                                html.Strong("Coverage Analysis:"), " 15-kilometer radius calculations using Haversine distance formula for optimization constraints"
+                            ])
+                        ], className="text-muted")
                     ])
                 ])
-            ], width=12, className="mt-3")
+            ], width=12)
         ])]
     
     elif active_tab == "status_quo":
@@ -1615,7 +1674,7 @@ def render_tab_content(active_tab):
     return [html.Div("Select a tab to view content")]
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8061)
+    app.run_server(debug=True, port=8063)
 
 if __name__ == '__main__':
     print("🚀 Starting Method Comparison Dashboard...")
