@@ -30,7 +30,7 @@ def load_and_process_data():
     try:
         # Population data
         print("📊 Loading population data...")
-        pop_df = pd.read_csv('0 polulation_location_polygon.csv')
+        pop_df = pd.read_csv('../../data/raw/population_location_polygon.csv')
         
         # Check the coordinate system - the data appears to be in UTM/projected coordinates
         print(f"Raw coordinate ranges - Lat: {pop_df['latitude'].min():.0f} to {pop_df['latitude'].max():.0f}")
@@ -71,13 +71,13 @@ def load_and_process_data():
         
         # EMS base data
         print("🏥 Loading EMS base data...")
-        ems_df = pd.read_csv('optimal_ems_locations_15min.csv')
+        ems_df = pd.read_csv('../../data/processed/optimal_ems_locations_15min.csv')
         print(f"✅ Loaded {len(ems_df)} EMS bases")
         
         # Hospital data  
         print("🏥 Loading hospital data...")
         import json
-        with open('1 Hospitals.geojson', 'r') as f:
+        with open('../../data/raw/hospitals.geojson', 'r') as f:
             hospital_data = json.load(f)
         
         hospital_list = []
@@ -122,7 +122,7 @@ def load_and_process_data():
         
         # Load EHS performance data if available
         try:
-            ehs_perf = pd.read_csv('2 Emergency_Health_Services_20250719.csv')
+            ehs_perf = pd.read_csv('../../data/raw/emergency_health_services.csv')
             print(f"✅ Loaded EHS performance data: {len(ehs_perf)} records")
         except:
             ehs_perf = pd.DataFrame()
