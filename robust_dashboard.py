@@ -74,6 +74,28 @@ def load_and_process_data():
         ems_df = pd.read_csv('optimal_ems_locations_15min.csv')
         print(f"✅ Loaded {len(ems_df)} EMS bases")
         
+        # Hospital data  
+        print("🏥 Loading hospital data...")
+        import json
+        with open('1 Hospitals.geojson', 'r') as f:
+            hospital_data = json.load(f)
+        
+        hospital_list = []
+        for feature in hospital_data['features']:
+            coords = feature['geometry']['coordinates']
+            props = feature['properties']
+            hospital_list.append({
+                'name': props['facility'],
+                'town': props['town'],
+                'county': props['county'],
+                'type': props['type'],
+                'longitude': coords[0],
+                'latitude': coords[1]
+            })
+        
+        hospital_df = pd.DataFrame(hospital_list)
+        print(f"✅ Loaded {len(hospital_df)} existing hospitals")
+        
         # Calculate distances for each community to nearest EMS base
         print("📏 Calculating coverage distances...")
         distances = []
@@ -106,15 +128,17 @@ def load_and_process_data():
             ehs_perf = pd.DataFrame()
             print("⚠️ EHS performance data not available")
         
-        return clean_df, ems_df, ehs_perf
+        return clean_df, ems_df, hospital_df, ehs_perf
         
     except Exception as e:
         print(f"❌ Error loading data: {e}")
-        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
 
-def create_main_map(clean_df, ems_df):
+def create_main_map(clean_df, ems_df, hospital_df):
     """Create the main interactive map"""
     fig = go.Figure()
+    
+    print(f"🗺️ Creating map with {len(clean_df)} communities, {len(ems_df)} EMS bases, {len(hospital_df)} hospitals")
     
     # Add communities as equal-sized blue circles
     fig.add_trace(go.Scattermapbox(
@@ -132,25 +156,53 @@ def create_main_map(clean_df, ems_df):
               f"Assigned to: {row['assigned_ems']}"
               for _, row in clean_df.iterrows()],
         hovertemplate='%{text}<extra></extra>',
-        name='Communities (Blue circles)'
+        name='Communities (Blue circles)',
+        showlegend=True
+    ))
+    
+    # Add existing hospitals as green markers
+    print(f"📍 Adding {len(hospital_df)} hospitals to map")
+    fig.add_trace(go.Scattermapbox(
+        lat=hospital_df['latitude'],
+        lon=hospital_df['longitude'],
+        mode='markers',
+        marker=dict(
+            size=20,
+            color='green',
+            symbol='circle',  # Changed from hospital symbol to circle
+            opacity=1.0
+        ),
+        text=[f"<b>Hospital: {row['name']}</b><br>"
+              f"Town: {row['town']}<br>"
+              f"County: {row['county']}<br>"
+              f"Type: {row['type']}"
+              for _, row in hospital_df.iterrows()],
+        hovertemplate='%{text}<extra></extra>',
+        name='Existing Hospitals (Green)',
+        showlegend=True,
+        visible=True
     ))
     
     # Add EMS bases as red hospital markers
+    print(f"🚑 Adding {len(ems_df)} EMS bases to map")
     fig.add_trace(go.Scattermapbox(
         lat=ems_df['Latitude'],
         lon=ems_df['Longitude'],
         mode='markers',
         marker=dict(
-            size=25,
+            size=35,
             color='red',
-            symbol='hospital'
+            symbol='circle',  # Changed from star to circle for simplicity
+            opacity=1.0
         ),
         text=[f"<b>EMS Base: {row['EHS_Base_ID']}</b><br>"
               f"Region: {row['Region']}<br>"
               f"Coverage: {row['Coverage_Area']}"
               for _, row in ems_df.iterrows()],
         hovertemplate='%{text}<extra></extra>',
-        name='EMS Bases (Red hospitals)'
+        name='Proposed EMS Bases (Red)',
+        showlegend=True,
+        visible=True
     ))
     
     # Add coverage circles for 15km radius
@@ -187,9 +239,17 @@ def create_main_map(clean_df, ems_df):
         ),
         margin={"r":0,"t":0,"l":0,"b":0},
         height=600,
-        showlegend=True
+        showlegend=True,
+        legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=0.01,
+            bgcolor="rgba(255, 255, 255, 0.8)"
+        )
     )
     
+    print(f"🗺️ Map created with {len(fig.data)} traces")
     return fig
 
 def create_coverage_analysis(clean_df):
@@ -235,7 +295,7 @@ def main():
         print("📁 Changed to:", os.getcwd())
         
         # Load and process data
-        clean_df, ems_df, ehs_perf = load_and_process_data()
+        clean_df, ems_df, hospital_df, ehs_perf = load_and_process_data()
         
         if clean_df.empty or ems_df.empty:
             print("❌ Failed to load required data")
@@ -246,7 +306,7 @@ def main():
         app.title = "Nova Scotia EHS Dashboard"
         
         # Create visualizations
-        main_map = create_main_map(clean_df, ems_df)
+        main_map = create_main_map(clean_df, ems_df, hospital_df)
         dist_chart, coverage_chart, coverage_stats = create_coverage_analysis(clean_df)
         
         
