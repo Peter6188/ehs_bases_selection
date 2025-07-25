@@ -13,6 +13,8 @@ Based on the requirement that all 95 population centers must be within 15 minute
 - **Total Population**: 923,598 residents
 - **Coverage Requirement**: ≤15 km (≈15 minutes emergency response)
 - **Analysis Method**: Population-weighted K-Means with distance optimization
+- **Performance Data**: EHS response times and hospital offload intervals (2021-2023)
+- **Operational Zones**: Central, Eastern, Northern, Western Nova Scotia
 
 ### Optimal Configuration
 
@@ -69,6 +71,18 @@ For 95 communities spread across Nova Scotia, achieving 100% coverage within 15k
 - Ensures bases are positioned closer to high-population areas
 - Balances coverage requirements with population distribution
 
+### 4. Hospital Performance Integration *(NEW)*
+- Incorporates ED offload interval data from real EHS operations
+- Avoids co-locating bases at hospitals with poor performance (>15,000 min offload)
+- Weights hospital efficiency in base location decisions
+- Uses hospitals as potential EHS base locations where operationally efficient
+
+### 5. Historical Demand Patterns *(NEW)*
+- Integrates EHS response volume data by zone (2021-2023)
+- Accounts for seasonal demand variations
+- Uses historical response patterns as additional weighting factors
+- Ensures zone-level coverage redundancy based on actual usage
+
 ## Implementation Recommendations
 
 ### Phase 1: Urban Coverage (6 bases)
@@ -116,7 +130,7 @@ Complete coverage for remote areas:
 
 ## Key Quote for Capstone Project
 
-*"Through population-weighted K-Means clustering with distance optimization, we determined that 12 EHS bases are required to ensure all 95 Nova Scotia communities receive emergency health services within the critical 15-minute response window, representing a significant improvement over the initial 5-base configuration which left many rural communities inadequately served."*
+*"Through population-weighted K-Means clustering with distance optimization and integration of real-world EHS performance data including hospital offload intervals and historical response volumes, we determined that 12 EHS bases are required to ensure all 95 Nova Scotia communities receive emergency health services within the critical 15-minute response window. This enhanced model incorporates operational efficiency metrics and avoids co-locating bases at hospitals with poor performance (>15,000 minute offload times), representing a significant improvement over both the initial 5-base configuration and purely population-based clustering approaches."*
 
 ---
 

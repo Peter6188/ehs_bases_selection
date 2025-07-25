@@ -1,0 +1,24 @@
+# Dashboard Requirements
+# Core dashboard dependencies
+dash==2.14.1
+dash-bootstrap-components==1.5.0
+plotly==5.17.0
+folium==0.14.0
+
+# Data processing (already in your requirements.txt)
+pandas>=1.5.0
+numpy>=1.24.0
+geopandas>=0.13.0
+
+# Scientific computing (already in your requirements.txt)  
+scikit-learn>=1.3.0
+
+# Additional dashboard utilities
+dash-leaflet==0.1.23
+dash-extensions==1.0.4
+
+# For advanced mapping features
+plotly-geo==1.0.0
+
+# For deployment (optional)
+gunicorn==21.2.0
