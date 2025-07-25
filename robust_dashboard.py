@@ -190,7 +190,7 @@ def create_main_map(clean_df, ems_df, hospital_df):
         lon=ems_df['Longitude'],
         mode='markers',
         marker=dict(
-            size=35,
+            size=12,  # Same size as communities
             color='red',
             symbol='circle',  # Changed from star to circle for simplicity
             opacity=1.0
