@@ -13,6 +13,7 @@ import dash_bootstrap_components as dbc
 import sys
 import os
 from math import radians, cos, sin, asin, sqrt
+from pyproj import Transformer
 
 def haversine_distance(lat1, lon1, lat2, lon2):
     """Calculate the great circle distance between two points on earth"""
@@ -35,25 +36,21 @@ def load_and_process_data():
         print(f"Raw coordinate ranges - Lat: {pop_df['latitude'].min():.0f} to {pop_df['latitude'].max():.0f}")
         print(f"Raw coordinate ranges - Lon: {pop_df['longitude'].min():.0f} to {pop_df['longitude'].max():.0f}")
         
-        # Convert coordinates - these appear to be in a projected coordinate system
-        # Based on the coordinate ranges, let's try a direct empirical conversion for Nova Scotia
-        utm_easting = pop_df['longitude']  # X coordinate  
-        utm_northing = pop_df['latitude']  # Y coordinate
+        # Proper coordinate transformation from Statistics Canada Lambert to WGS84
+        # The data uses Statistics Canada Lambert projection (EPSG:3347)
+        transformer = Transformer.from_crs("EPSG:3347", "EPSG:4326", always_xy=True)
         
-        # Empirical conversion for Nova Scotia based on typical coordinate ranges
-        # Nova Scotia spans roughly 43.4°N to 47.1°N, -66.4°W to -59.7°W
+        # Transform coordinates
+        utm_easting = pop_df['longitude']  # X coordinate (easting)
+        utm_northing = pop_df['latitude']  # Y coordinate (northing)
         
-        # Linear transformation based on Nova Scotia bounds
-        lat_min_utm, lat_max_utm = utm_northing.min(), utm_northing.max()
-        lon_min_utm, lon_max_utm = utm_easting.min(), utm_easting.max()
+        print(f"🔄 Converting {len(pop_df)} points from Statistics Canada Lambert to WGS84...")
         
-        # Map to Nova Scotia geographic bounds
-        lat_min_geo, lat_max_geo = 43.4, 47.1
-        lon_min_geo, lon_max_geo = -66.4, -59.7
+        # Transform all points at once
+        lon_deg, lat_deg = transformer.transform(utm_easting.values, utm_northing.values)
         
-        # Linear interpolation
-        pop_df['lat_deg'] = lat_min_geo + (utm_northing - lat_min_utm) / (lat_max_utm - lat_min_utm) * (lat_max_geo - lat_min_geo)
-        pop_df['lon_deg'] = lon_min_geo + (utm_easting - lon_min_utm) / (lon_max_utm - lon_min_utm) * (lon_max_geo - lon_min_geo)
+        pop_df['lat_deg'] = lat_deg
+        pop_df['lon_deg'] = lon_deg
         
         print(f"After conversion - Lat: {pop_df['lat_deg'].min():.2f} to {pop_df['lat_deg'].max():.2f}")
         print(f"After conversion - Lon: {pop_df['lon_deg'].min():.2f} to {pop_df['lon_deg'].max():.2f}")
@@ -64,8 +61,8 @@ def load_and_process_data():
         
         # Filter for reasonable Nova Scotia bounds (decimal degrees)
         clean_df = clean_df[
-            (clean_df['lat_deg'] >= 43.0) & (clean_df['lat_deg'] <= 47.0) &
-            (clean_df['lon_deg'] >= -67.0) & (clean_df['lon_deg'] <= -59.0)
+            (clean_df['lat_deg'] >= 43.0) & (clean_df['lat_deg'] <= 48.0) &
+            (clean_df['lon_deg'] >= -68.0) & (clean_df['lon_deg'] <= -59.0)
         ]
         
         print(f"✅ Loaded {len(clean_df)} communities")
@@ -119,16 +116,15 @@ def create_main_map(clean_df, ems_df):
     """Create the main interactive map"""
     fig = go.Figure()
     
-    # Add communities as scatter points
+    # Add communities as equal-sized blue circles
     fig.add_trace(go.Scattermapbox(
         lat=clean_df['lat_deg'],
         lon=clean_df['lon_deg'],
         mode='markers',
         marker=dict(
-            size=clean_df['C1_COUNT_TOTAL'] / 1000 + 5,  # Scale population
-            color='lightblue',
-            opacity=0.7,
-            sizemode='diameter'
+            size=12,  # Equal size for all communities
+            color='blue',
+            opacity=0.8
         ),
         text=[f"Community: {row.get('GEO_NAME', 'Unknown')}<br>"
               f"Population: {row['C1_COUNT_TOTAL']:,}<br>"
@@ -136,25 +132,25 @@ def create_main_map(clean_df, ems_df):
               f"Assigned to: {row['assigned_ems']}"
               for _, row in clean_df.iterrows()],
         hovertemplate='%{text}<extra></extra>',
-        name='Communities'
+        name='Communities (Blue circles)'
     ))
     
-    # Add EMS bases
+    # Add EMS bases as red hospital markers
     fig.add_trace(go.Scattermapbox(
         lat=ems_df['Latitude'],
         lon=ems_df['Longitude'],
         mode='markers',
         marker=dict(
-            size=20,
+            size=25,
             color='red',
-            symbol='hospital',
+            symbol='hospital'
         ),
-        text=[f"<b>{row['EHS_Base_ID']}</b><br>"
+        text=[f"<b>EMS Base: {row['EHS_Base_ID']}</b><br>"
               f"Region: {row['Region']}<br>"
               f"Coverage: {row['Coverage_Area']}"
               for _, row in ems_df.iterrows()],
         hovertemplate='%{text}<extra></extra>',
-        name='EMS Bases'
+        name='EMS Bases (Red hospitals)'
     ))
     
     # Add coverage circles for 15km radius
@@ -177,9 +173,10 @@ def create_main_map(clean_df, ems_df):
             lat=lats,
             lon=lons,
             mode='lines',
-            line=dict(width=1, color='rgba(255,0,0,0.3)'),
+            line=dict(width=2, color='rgba(255,0,0,0.5)'),
             showlegend=False,
-            hoverinfo='skip'
+            hoverinfo='skip',
+            name='15km Coverage Zone'
         ))
     
     fig.update_layout(
