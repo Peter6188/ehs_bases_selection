@@ -761,7 +761,8 @@ app.layout = dbc.Container([
         dbc.Tab(label="� Status Quo", tab_id="status_quo"),
         dbc.Tab(label="�📊 Method 1: Population-Only", tab_id="method1"),
         dbc.Tab(label="🏥 Method 2: Hospital-Integrated", tab_id="method2"),
-        dbc.Tab(label="⚖️ Comparison Analysis", tab_id="comparison")
+        dbc.Tab(label="⚖️ Comparison Analysis", tab_id="comparison"),
+        dbc.Tab(label="🚀 Future Directions", tab_id="future_directions")
     ], id="tabs", active_tab="introduction"),
     
     html.Div(id="tab-content", className="mt-4")
@@ -1352,10 +1353,269 @@ def render_tab_content(active_tab):
             ], width=12, className="mt-3")
         ])]
     
+    elif active_tab == "future_directions":
+        return [dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("🚀 Future Directions & Research Extensions", className="text-primary"),
+                        html.P("Limitations of current analysis and opportunities for enhanced EHS optimization", 
+                              className="mb-0 small text-muted")
+                    ]),
+                    dbc.CardBody([
+                        # Current Analysis Limitations
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Card([
+                                    dbc.CardHeader([
+                                        html.H5("⚠️ Current Analysis Limitations", className="text-warning"),
+                                    ]),
+                                    dbc.CardBody([
+                                        html.H6("🗺️ Geographic & Distance Calculation", className="text-danger"),
+                                        html.Ul([
+                                            html.Li("Uses Haversine distance (straight-line) instead of actual road networks"),
+                                            html.Li("Does not account for road conditions, traffic patterns, or seasonal variations"),
+                                            html.Li("Ignores geographic barriers (mountains, water bodies, urban congestion)"),
+                                            html.Li("No consideration of real-world driving routes and accessibility")
+                                        ], className="small"),
+                                        
+                                        html.H6("👥 Population Data Limitations", className="text-danger mt-3"),
+                                        html.Ul([
+                                            html.Li("Limited demographic granularity (only total population count)"),
+                                            html.Li("No age-specific analysis (elderly populations need more EMS services)"),
+                                            html.Li("Missing socioeconomic factors (income, education, health status)"),
+                                            html.Li("No temporal variations (seasonal population changes, tourism)"),
+                                            html.Li("Lacks high-resolution geographic distribution within communities")
+                                        ], className="small"),
+                                        
+                                        html.H6("⏰ Temporal Analysis Gaps", className="text-danger mt-3"),
+                                        html.Ul([
+                                            html.Li("Static analysis - no time-based demand modeling"),
+                                            html.Li("No consideration of peak demand periods (holidays, events)"),
+                                            html.Li("Missing seasonal emergency patterns"),
+                                            html.Li("No integration of historical emergency call data")
+                                        ], className="small")
+                                    ])
+                                ], color="warning", outline=True)
+                            ], width=12)
+                        ], className="mb-4"),
+                        
+                        # Future Enhancements
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Card([
+                                    dbc.CardHeader([
+                                        html.H5("🔬 Proposed Research Extensions", className="text-success"),
+                                    ]),
+                                    dbc.CardBody([
+                                        dbc.Row([
+                                            dbc.Col([
+                                                dbc.Card([
+                                                    dbc.CardBody([
+                                                        html.H6("🛣️ Enhanced Geographic Modeling", className="text-success"),
+                                                        html.Ul([
+                                                            html.Li("Integrate Nova Scotia road network data (OpenStreetMap/provincial datasets)"),
+                                                            html.Li("Calculate real driving distances and travel times"),
+                                                            html.Li("Include traffic pattern analysis and congestion modeling"),
+                                                            html.Li("Account for seasonal road conditions and accessibility"),
+                                                            html.Li("Incorporate terrain analysis for helicopter deployment feasibility")
+                                                        ], className="small")
+                                                    ])
+                                                ], color="success", outline=True)
+                                            ], width=6),
+                                            
+                                            dbc.Col([
+                                                dbc.Card([
+                                                    dbc.CardBody([
+                                                        html.H6("📊 Advanced Demographics", className="text-info"),
+                                                        html.Ul([
+                                                            html.Li("Age-stratified population analysis (elderly = higher EMS demand)"),
+                                                            html.Li("Health status indicators and chronic disease prevalence"),
+                                                            html.Li("Socioeconomic factors affecting emergency service utilization"),
+                                                            html.Li("Seasonal population variations (tourism, seasonal workers)"),
+                                                            html.Li("High-resolution population density mapping")
+                                                        ], className="small")
+                                                    ])
+                                                ], color="info", outline=True)
+                                            ], width=6)
+                                        ]),
+                                        
+                                        dbc.Row([
+                                            dbc.Col([
+                                                dbc.Card([
+                                                    dbc.CardBody([
+                                                        html.H6("⏰ Temporal Demand Modeling", className="text-primary"),
+                                                        html.Ul([
+                                                            html.Li("Historical emergency call pattern analysis"),
+                                                            html.Li("Peak demand time modeling (day/night, seasonal)"),
+                                                            html.Li("Special event and holiday demand forecasting"),
+                                                            html.Li("Weather-related emergency pattern integration"),
+                                                            html.Li("Dynamic resource allocation optimization")
+                                                        ], className="small")
+                                                    ])
+                                                ], color="primary", outline=True)
+                                            ], width=6),
+                                            
+                                            dbc.Col([
+                                                dbc.Card([
+                                                    dbc.CardBody([
+                                                        html.H6("🚁 Multi-Modal Emergency Response", className="text-warning"),
+                                                        html.Ul([
+                                                            html.Li("Helicopter EMS (HEMS) integration for remote areas"),
+                                                            html.Li("Marine rescue coordination for coastal communities"),
+                                                            html.Li("Ground vs. air transport optimization"),
+                                                            html.Li("Weather-dependent transport mode selection"),
+                                                            html.Li("Specialized vehicle deployment (cardiac, trauma units)")
+                                                        ], className="small")
+                                                    ])
+                                                ], color="warning", outline=True)
+                                            ], width=6)
+                                        ], className="mt-3")
+                                    ])
+                                ], color="success", outline=True)
+                            ], width=12)
+                        ], className="mb-4"),
+                        
+                        # Implementation Roadmap
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Card([
+                                    dbc.CardHeader([
+                                        html.H5("🗺️ Implementation Roadmap", className="text-primary"),
+                                    ]),
+                                    dbc.CardBody([
+                                        dbc.Row([
+                                            dbc.Col([
+                                                dbc.Card([
+                                                    dbc.CardBody([
+                                                        html.H6("Phase 1: Enhanced Geographic Integration (3-6 months)", className="text-success"),
+                                                        html.Ul([
+                                                            html.Li("Integrate Nova Scotia road network GIS data"),
+                                                            html.Li("Implement routing algorithms (OSRM, GraphHopper)"),
+                                                            html.Li("Validate real vs. straight-line distance accuracy"),
+                                                            html.Li("Benchmark travel time predictions against actual data")
+                                                        ], className="small")
+                                                    ])
+                                                ])
+                                            ], width=4),
+                                            
+                                            dbc.Col([
+                                                dbc.Card([
+                                                    dbc.CardBody([
+                                                        html.H6("Phase 2: Demographic Enhancement (6-9 months)", className="text-info"),
+                                                        html.Ul([
+                                                            html.Li("Acquire detailed Census demographic data"),
+                                                            html.Li("Integrate health system utilization patterns"),
+                                                            html.Li("Develop age-weighted demand models"),
+                                                            html.Li("Include chronic disease prevalence mapping")
+                                                        ], className="small")
+                                                    ])
+                                                ])
+                                            ], width=4),
+                                            
+                                            dbc.Col([
+                                                dbc.Card([
+                                                    dbc.CardBody([
+                                                        html.H6("Phase 3: Temporal Analysis (9-12 months)", className="text-warning"),
+                                                        html.Ul([
+                                                            html.Li("Analyze historical EMS call data patterns"),
+                                                            html.Li("Develop seasonal and time-based demand models"),
+                                                            html.Li("Implement dynamic optimization algorithms"),
+                                                            html.Li("Validate predictive models against real incidents")
+                                                        ], className="small")
+                                                    ])
+                                                ])
+                                            ], width=4)
+                                        ])
+                                    ])
+                                ])
+                            ], width=12)
+                        ], className="mb-4"),
+                        
+                        # Research Opportunities
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Card([
+                                    dbc.CardHeader([
+                                        html.H5("🎓 Academic Research Opportunities", className="text-secondary"),
+                                    ]),
+                                    dbc.CardBody([
+                                        html.H6("📖 Publication Potential", className="text-success"),
+                                        html.Ul([
+                                            html.Li("\"Rural Emergency Medical Services Optimization in Atlantic Canada\""),
+                                            html.Li("\"Multi-Modal Emergency Response Networks: Geographic and Demographic Factors\""),
+                                            html.Li("\"Machine Learning Applications in Emergency Medical Service Planning\""),
+                                            html.Li("\"Integrated Hospital Performance and EMS Base Location Optimization\"")
+                                        ], className="small"),
+                                        
+                                        html.H6("🤝 Collaboration Opportunities", className="text-info mt-3"),
+                                        html.Ul([
+                                            html.Li("Emergency Health Services Nova Scotia (EHS NS)"),
+                                            html.Li("Nova Scotia Department of Health and Wellness"),
+                                            html.Li("Dalhousie University Geography & Planning Department"),
+                                            html.Li("NSCC Geographic Information Systems programs"),
+                                            html.Li("Canadian Association of Emergency Physicians (CAEP)")
+                                        ], className="small"),
+                                        
+                                        html.H6("💰 Funding Opportunities", className="text-primary mt-3"),
+                                        html.Ul([
+                                            html.Li("CIHR Health System Impact Fellowship"),
+                                            html.Li("NSERC Discovery Grants"),
+                                            html.Li("CFI Infrastructure funding for GIS/computing resources"),
+                                            html.Li("Nova Scotia Research and Innovation Trust"),
+                                            html.Li("Health Canada Partnership and Citizen Engagement grants")
+                                        ], className="small")
+                                    ])
+                                ])
+                            ], width=12)
+                        ])
+                    ])
+                ])
+            ], width=12),
+            
+            # Key Takeaways
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🎯 Key Takeaways for Future Research", className="text-primary"),
+                    ]),
+                    dbc.CardBody([
+                        dbc.Alert([
+                            html.H5("🚀 RESEARCH VISION: NEXT-GENERATION EMS OPTIMIZATION", className="alert-heading text-center"),
+                            html.Hr(),
+                            html.P("🗺️ Real-world geographic constraints with road network integration", className="mb-1"),
+                            html.P("📊 Multi-dimensional demographic and health status modeling", className="mb-1"),
+                            html.P("⏰ Dynamic temporal demand patterns and seasonal variations", className="mb-1"),
+                            html.P("🚁 Multi-modal transport optimization (ground, air, marine)", className="mb-1"),
+                            html.P("🎯 Evidence-based policy recommendations for Nova Scotia EHS", className="mb-0")
+                        ], color="primary", className="mt-3"),
+                        
+                        html.P([
+                            "This analysis provides a strong foundation for advanced EMS optimization research. ",
+                            "The methodologies developed here can be extended with real-world geographic constraints, ",
+                            "enhanced demographic modeling, and temporal analysis to create a comprehensive emergency ",
+                            "medical service planning framework for Nova Scotia and beyond."
+                        ], className="mt-3 text-muted"),
+                        
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H6("📞 Contact for Collaboration", className="text-success"),
+                                html.P([
+                                    "Interested researchers, policymakers, and EHS professionals are encouraged to ",
+                                    "contact the project team to discuss collaboration opportunities and data sharing ",
+                                    "for advancing emergency medical service optimization research in Nova Scotia."
+                                ], className="small mb-0")
+                            ])
+                        ], color="light", className="mt-3")
+                    ])
+                ])
+            ], width=12, className="mt-3")
+        ])]
+    
     return [html.Div("Select a tab to view content")]
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8060)
+    app.run_server(debug=True, port=8061)
 
 if __name__ == '__main__':
     print("🚀 Starting Method Comparison Dashboard...")
