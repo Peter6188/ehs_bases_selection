@@ -69,9 +69,9 @@ def load_and_process_data():
         print(f"Coordinate ranges - Lat: {clean_df['lat_deg'].min():.2f} to {clean_df['lat_deg'].max():.2f}")
         print(f"Coordinate ranges - Lon: {clean_df['lon_deg'].min():.2f} to {clean_df['lon_deg'].max():.2f}")
         
-        # EMS base data
+        # EMS base data - use the new optimal 60-base solution
         print("🏥 Loading EMS base data...")
-        ems_df = pd.read_csv('../../data/processed/optimal_ems_locations_15min.csv')
+        ems_df = pd.read_csv('../../data/processed/optimal_ems_locations_60bases_complete_coverage.csv')
         print(f"✅ Loaded {len(ems_df)} EMS bases")
         
         # Hospital data  
@@ -352,7 +352,7 @@ def main():
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            html.H4("100%", className="text-success mb-0"),
+                            html.H4("94.6%", className="text-warning mb-0"),
                             html.P("15-Min Coverage", className="mb-0")
                         ])
                     ])
@@ -386,7 +386,21 @@ def main():
                                       className="mb-0 small text-muted")
                             ]),
                             dbc.CardBody([
-                                dcc.Graph(figure=main_map, style={'height': '600px'})
+                                dcc.Graph(
+                                    figure=main_map, 
+                                    style={'height': '600px'},
+                                    config={
+                                        'scrollZoom': True,  # Allow zoom with scroll
+                                        'doubleClick': 'reset+autosize',  # Double click resets to initial view
+                                        'showTips': True,
+                                        'displayModeBar': True,
+                                        'displaylogo': False,
+                                        'modeBarButtonsToRemove': [
+                                            'pan2d', 'select2d', 'lasso2d', 'resetScale2d',
+                                            'zoomIn2d', 'zoomOut2d', 'autoScale2d'
+                                        ]
+                                    }
+                                )
                             ])
                         ])
                     ])
@@ -474,10 +488,11 @@ def main():
                                 
                                 html.H5("Results Summary:"),
                                 html.P([
-                                    "The analysis determined that ", html.Strong("12 EMS bases"), 
-                                    " are required to provide 100% coverage within the 15-minute response time constraint for all ",
-                                    f"{len(clean_df)} Nova Scotia communities, serving a total population of 923,598 residents."
-                                ], className="alert alert-success")
+                                    "The analysis determined that ", html.Strong("60 EMS bases"), 
+                                    " provide optimal coverage for Nova Scotia's geography, achieving 94.6% coverage within the 15-minute response time constraint for ",
+                                    f"{len(clean_df)} Nova Scotia communities, serving a total population of 969,383 residents. "
+                                    "Some remote communities require longer response times due to Nova Scotia's dispersed geography."
+                                ], className="alert alert-warning")
                             ])
                         ])
                     ])
@@ -498,7 +513,7 @@ def main():
         
         # Start the server
         app.run_server(
-            debug=True, 
+            debug=False,  # Disable debug mode to prevent reload issues
             host='127.0.0.1', 
             port=8050,
             dev_tools_hot_reload=False

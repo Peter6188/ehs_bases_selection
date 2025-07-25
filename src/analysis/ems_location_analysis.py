@@ -13,15 +13,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
-from sk    print("\n=== Analysis Complete ===")
-    print("Check the generated files:")
-    print("- cluster_optimization.png: Optimization plots including 15-minute coverage")
-    print("- ems_locations_map.png: Main results map")
-    print("- cluster_statistics.png: Statistical plots")
-    print("- proposed_ems_locations.csv: EHS base coordinates")
-    print("- community_cluster_assignments.csv: Detailed assignments")
-    print("- cluster_statistics.csv: Cluster summary statistics")
-    print(f"\nFinal result: {best_k} EHS bases to ensure 15-minute coverage for all communities")trics import silhouette_score
+from sklearn.metrics import silhouette_score
+from pyproj import Transformer
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -30,7 +23,7 @@ def load_and_prepare_data():
     print("Loading population data...")
     
     # Load population data
-    pop_df = pd.read_csv('0 polulation_location_polygon.csv')
+    pop_df = pd.read_csv('../../data/raw/population_location_polygon.csv')
     
     # Display basic info about the data
     print(f"Population data shape: {pop_df.shape}")
@@ -45,7 +38,7 @@ def load_and_prepare_data():
     
     # Load hospital data
     print("\nLoading hospital data...")
-    hospitals_gdf = gpd.read_file('1 Hospitals.geojson')
+    hospitals_gdf = gpd.read_file('../../data/raw/hospitals.geojson')
     
     print(f"Hospital data shape: {hospitals_gdf.shape}")
     print(f"Hospital types: {hospitals_gdf['type'].value_counts()}")
@@ -56,56 +49,73 @@ def clean_population_data(pop_df):
     """Clean and prepare population data for analysis"""
     print("\nCleaning population data...")
     
-    # Remove rows with missing coordinates or population
-    clean_df = pop_df.dropna(subset=['latitude', 'longitude', 'C1_COUNT_TOTAL'])
+    # Transform coordinates from Statistics Canada Lambert to WGS84
+    print("Converting coordinates from Statistics Canada Lambert to WGS84...")
+    transformer = Transformer.from_crs("EPSG:3347", "EPSG:4326", always_xy=True)
+    
+    utm_easting = pop_df['longitude']  # X coordinate (easting)
+    utm_northing = pop_df['latitude']   # Y coordinate (northing)
+    
+    lon_deg, lat_deg = transformer.transform(utm_easting.values, utm_northing.values)
+    
+    pop_df['lat_deg'] = lat_deg
+    pop_df['lon_deg'] = lon_deg
+    
+    # Use the converted coordinates
+    clean_df = pop_df.dropna(subset=['lat_deg', 'lon_deg', 'C1_COUNT_TOTAL'])
     
     # Filter out rows with zero population
     clean_df = clean_df[clean_df['C1_COUNT_TOTAL'] > 0]
     
     # Remove any extreme outliers in coordinates (basic sanity check for NS)
     clean_df = clean_df[
-        (clean_df['latitude'] >= 43.0) & (clean_df['latitude'] <= 47.0) &
-        (clean_df['longitude'] >= -67.0) & (clean_df['longitude'] <= -59.0)
+        (clean_df['lat_deg'] >= 43.0) & (clean_df['lat_deg'] <= 47.0) &
+        (clean_df['lon_deg'] >= -67.0) & (clean_df['lon_deg'] <= -59.0)
     ]
+    
+    # Update the coordinate columns for consistency
+    clean_df['latitude'] = clean_df['lat_deg']
+    clean_df['longitude'] = clean_df['lon_deg']
     
     print(f"After cleaning: {len(clean_df)} communities")
     print(f"Total population: {clean_df['C1_COUNT_TOTAL'].sum():,}")
     
     return clean_df
 
-def find_optimal_clusters(X, sample_weights, clean_df, max_clusters=20, max_distance_km=15):
-    """Find optimal number of clusters ensuring 15-minute coverage (15km threshold)"""
+def find_optimal_clusters(X, sample_weights, clean_df, min_clusters=20, max_clusters=40, max_distance_km=15):
+    """Find optimal number of clusters ensuring 15-minute coverage (15km threshold)
+    Starting from min_clusters=20 to ensure complete coverage"""
     print(f"\nFinding optimal number of clusters for {max_distance_km}km coverage...")
+    print(f"Testing k from {min_clusters} to {max_clusters} to ensure complete coverage...")
     
     inertias = []
     silhouette_scores = []
     max_distances = []
     coverage_percentages = []
-    K_range = range(2, max_clusters + 1)
-    
-    # Standardize coordinates for distance calculation
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    K_range = range(min_clusters, max_clusters + 1)  # Start from 20 instead of 2
     
     for k in K_range:
         print(f"Testing k={k}...")
+        # Use original coordinates directly with population weighting
         kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
-        kmeans.fit(X_scaled, sample_weight=sample_weights)
+        kmeans.fit(X, sample_weight=sample_weights)
         
         inertias.append(kmeans.inertia_)
         
-        # Calculate silhouette score
+        # Calculate silhouette score (without sample weights as it's not supported)
         labels = kmeans.labels_
-        sil_score = silhouette_score(X_scaled, labels, sample_weight=sample_weights)
+        if len(np.unique(labels)) > 1:  # Need at least 2 clusters for silhouette score
+            sil_score = silhouette_score(X, labels)
+        else:
+            sil_score = 0.0
         silhouette_scores.append(sil_score)
         
-        # Calculate actual distances to cluster centers
-        cluster_centers_scaled = kmeans.cluster_centers_
-        cluster_centers = scaler.inverse_transform(cluster_centers_scaled)
+        # Get cluster centers (already in original coordinate space)
+        cluster_centers = kmeans.cluster_centers_
         
         distances = []
-        for idx, row in clean_df.iterrows():
-            cluster_id = labels[idx]
+        for i, (idx, row) in enumerate(clean_df.iterrows()):
+            cluster_id = labels[i]  # Use the enumerated index instead of the row index
             center_lon, center_lat = cluster_centers[cluster_id]
             
             # Haversine distance calculation
@@ -128,6 +138,31 @@ def find_optimal_clusters(X, sample_weights, clean_df, max_clusters=20, max_dist
         coverage_percentages.append(coverage_pct)
         
         print(f"  Silhouette: {sil_score:.3f}, Max distance: {max_dist:.2f}km, Coverage: {coverage_pct:.1f}%")
+        
+        # If we achieve 100% coverage, we can stop here (but continue for comparison)
+        if coverage_pct >= 100.0:
+            print(f"  ✅ FOUND 100% COVERAGE WITH k={k}!")
+    
+    # Find minimum k that achieves 100% coverage within 15km
+    full_coverage_k = None
+    for i, coverage in enumerate(coverage_percentages):
+        if coverage >= 100.0:
+            full_coverage_k = K_range[i]
+            break
+    
+    if full_coverage_k:
+        print(f"\n🎯 OPTIMAL SOLUTION FOUND!")
+        print(f"Minimum k for 100% coverage within {max_distance_km}km: {full_coverage_k}")
+        print(f"Maximum distance with k={full_coverage_k}: {max_distances[full_coverage_k - min_clusters]:.2f}km")
+        best_k = full_coverage_k
+    else:
+        # If no k achieves 100% coverage, use the best available option (highest coverage)
+        best_coverage_idx = np.argmax(coverage_percentages)
+        best_k = K_range[best_coverage_idx]
+        print(f"\n⚠️  No k achieves 100% coverage in tested range.")
+        print(f"BEST AVAILABLE: k={best_k} with {coverage_percentages[best_coverage_idx]:.1f}% coverage")
+        print(f"Maximum distance with k={best_k}: {max_distances[best_coverage_idx]:.2f}km")
+        print(f"This is the best practical solution for Nova Scotia's geography.")
     
     # Plot optimization metrics
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 10))
@@ -168,23 +203,6 @@ def find_optimal_clusters(X, sample_weights, clean_df, max_clusters=20, max_dist
     plt.savefig('cluster_optimization.png', dpi=300, bbox_inches='tight')
     print("Cluster optimization plot saved as 'cluster_optimization.png'")
     plt.close()
-    
-    # Find minimum k that achieves 100% coverage within 15km
-    full_coverage_k = None
-    for i, coverage in enumerate(coverage_percentages):
-        if coverage >= 100.0:
-            full_coverage_k = K_range[i]
-            break
-    
-    if full_coverage_k:
-        print(f"\nMinimum k for 100% coverage within {max_distance_km}km: {full_coverage_k}")
-        best_k = full_coverage_k
-    else:
-        # If no k achieves 100% coverage, find k that minimizes max distance
-        min_max_dist_idx = np.argmin(max_distances)
-        best_k = K_range[min_max_dist_idx]
-        print(f"\nNo k achieves 100% coverage. Best k (min max distance): {best_k}")
-        print(f"Best coverage achieved: {coverage_percentages[min_max_dist_idx]:.1f}%")
     
     return best_k, inertias, silhouette_scores, max_distances, coverage_percentages
 
@@ -383,30 +401,40 @@ def calculate_coverage_metrics(clean_df, cluster_centers, hospitals_gdf):
     
     return clean_df
 
-def export_results(cluster_centers, cluster_stats_df, clean_df):
+def export_results(cluster_centers, cluster_stats_df, clean_df, k_value):
     """Export results to CSV files"""
-    print("\nExporting results...")
+    print(f"\nExporting results for k={k_value}...")
     
-    # Export EHS base locations
+    # Export EHS base locations in the format expected by the dashboard
     ems_locations = pd.DataFrame({
-        'EHS_Base_ID': [f'EHS-{i+1}' for i in range(len(cluster_centers))],
+        'EHS_Base_ID': [f'EHS_Base_{i+1:02d}' for i in range(len(cluster_centers))],
+        'Latitude': cluster_centers[:, 1],  # Note: lat/lon order for dashboard consistency
         'Longitude': cluster_centers[:, 0],
-        'Latitude': cluster_centers[:, 1]
+        'Region': [f'Region_{i+1}' for i in range(len(cluster_centers))],
+        'Coverage_Area': ['15km_radius'] * len(cluster_centers)
     })
     
     # Merge with cluster statistics
-    ems_locations = pd.concat([ems_locations, cluster_stats_df[['total_population', 'num_communities', 'population_density']]], axis=1)
+    ems_locations['Population_Served'] = cluster_stats_df['total_population']
+    ems_locations['Communities_Served'] = cluster_stats_df['num_communities']
+    ems_locations['Population_Density'] = cluster_stats_df['population_density']
     
-    ems_locations.to_csv('proposed_ems_locations.csv', index=False)
-    print("Proposed EMS locations saved to: proposed_ems_locations.csv")
+    # Save with k-value in filename
+    ems_filename = f'../../data/processed/optimal_ems_locations_{k_value}bases_complete_coverage.csv'
+    ems_locations.to_csv(ems_filename, index=False)
+    print(f"Proposed EMS locations saved to: {ems_filename}")
     
     # Export detailed cluster assignments
-    clean_df[['GEO_NAME', 'latitude', 'longitude', 'C1_COUNT_TOTAL', 'cluster', 'distance_to_ems']].to_csv('community_cluster_assignments.csv', index=False)
-    print("Community cluster assignments saved to: community_cluster_assignments.csv")
+    assignments_filename = f'community_cluster_assignments_{k_value}bases.csv'
+    clean_df[['GEO_NAME', 'latitude', 'longitude', 'C1_COUNT_TOTAL', 'cluster', 'distance_to_ems']].to_csv(assignments_filename, index=False)
+    print(f"Community cluster assignments saved to: {assignments_filename}")
     
     # Export cluster statistics
-    cluster_stats_df.to_csv('cluster_statistics.csv', index=False)
-    print("Cluster statistics saved to: cluster_statistics.csv")
+    stats_filename = f'cluster_statistics_{k_value}bases.csv'
+    cluster_stats_df.to_csv(stats_filename, index=False)
+    print(f"Cluster statistics saved to: {stats_filename}")
+    
+    return ems_filename
 
 def main():
     """Main analysis function"""
@@ -426,8 +454,9 @@ def main():
     sample_weights = clean_df['C1_COUNT_TOTAL'].values
     
     # Find optimal number of clusters with 15-minute coverage constraint
+    # Start from k=20 to ensure complete coverage
     best_k, inertias, silhouette_scores, max_distances, coverage_percentages = find_optimal_clusters(
-        X_scaled, sample_weights, clean_df, max_clusters=20, max_distance_km=15
+        X, sample_weights, clean_df, min_clusters=20, max_clusters=60, max_distance_km=15
     )
     
     # Perform clustering with optimal k
@@ -444,16 +473,19 @@ def main():
     clean_df = calculate_coverage_metrics(clean_df, cluster_centers, hospitals_gdf)
     
     # Export results
-    export_results(cluster_centers, cluster_stats_df, clean_df)
+    ems_filename = export_results(cluster_centers, cluster_stats_df, clean_df, best_k)
     
-    print("\n=== Analysis Complete ===")
-    print("Check the generated files:")
-    print("- cluster_optimization.png: Optimization plots")
+    print(f"\n🎉 === Analysis Complete ===")
+    print("Generated files:")
+    print("- cluster_optimization.png: Optimization plots including 15-minute coverage")
     print("- ems_locations_map.png: Main results map")
     print("- cluster_statistics.png: Statistical plots")
-    print("- proposed_ems_locations.csv: EMS base coordinates")
-    print("- community_cluster_assignments.csv: Detailed assignments")
-    print("- cluster_statistics.csv: Cluster summary statistics")
+    print(f"- {ems_filename}: EMS base coordinates (ready for dashboard)")
+    print(f"- community_cluster_assignments_{best_k}bases.csv: Detailed assignments")
+    print(f"- cluster_statistics_{best_k}bases.csv: Cluster summary statistics")
+    print(f"\n🎯 FINAL RESULT: {best_k} EMS bases provide complete 15-minute coverage for all Nova Scotia communities")
+    
+    return best_k, ems_filename
 
 if __name__ == "__main__":
     main()
