@@ -1,0 +1,77 @@
+EHS_Base_ID,Latitude,Longitude,Type
+Cobequid Community Health Centre,44.756916674813866,-63.6586009337315,Emergency_Hospital
+Dartmouth General Hospital,44.653987611022856,-63.547621423330824,Emergency_Hospital
+Eastern Shore Memorial Hospital,44.920663210921994,-62.53286404867581,Emergency_Hospital
+Hants Community Hospital,44.98638355369311,-64.12037375298009,Emergency_Hospital
+Musquodoboit Valley Memorial Hospital,45.04028911493914,-63.14037764272095,Emergency_Hospital
+QEII - Halifax Infirmary Site,44.64541455900125,-63.58709674369862,Emergency_Hospital
+Twin Oaks Memorial Hospital,44.78303534971087,-63.158333445666635,Emergency_Hospital
+Buchanan Memorial Community Health Centre,46.81056959301277,-60.33432729802968,Emergency_Hospital
+Cape Breton Regional Hospital,46.1130158306037,-60.174133616836095,Emergency_Hospital
+Eastern Memorial Hospital,45.33262820682038,-60.98400464643825,Emergency_Hospital
+Glace Bay Hospital,46.18321184114736,-59.938572836651716,Emergency_Hospital
+Guysborough Memorial Hospital,45.40234081804432,-61.5071355034544,Emergency_Hospital
+Inverness Consolidated Memorial Hospital,46.22696781337693,-61.30484314307468,Emergency_Hospital
+New Waterford Consolidated Hospital,46.239863345496474,-60.085793288911454,Emergency_Hospital
+Northside General Hospital,46.21820836429978,-60.23555151227749,Emergency_Hospital
+Sacred Heart Community Health Centre,46.623522547371586,-61.015063349964386,Emergency_Hospital
+St. Martha's Regional Hospital,45.62817596985708,-61.98219333746746,Emergency_Hospital
+St. Mary's Memorial Hospital,45.14693579634446,-61.981780294520306,Emergency_Hospital
+Strait Richmond Hospital,45.61708351662631,-61.22292639766177,Emergency_Hospital
+Victoria County Memorial Hospital,46.100263898319795,-60.75602895190468,Emergency_Hospital
+IWK Health Centre,44.63765107239818,-63.582908847707046,Emergency_Hospital
+Aberdeen Hospital,45.5729758405446,-62.64326836972356,Emergency_Hospital
+All Saints Springhill Hospital,45.650499307025406,-64.05159762320923,Emergency_Hospital
+Colchester East Hants Health Centre,45.34952312863823,-63.303384805904166,Emergency_Hospital
+Cumberland Regional Health Care Centre,45.803440001139904,-64.19769949378933,Emergency_Hospital
+Lillian Fraser Memorial Hospital,45.71153621241759,-63.29635970402658,Emergency_Hospital
+North Cumberland Memorial Hospital,45.85615154386532,-63.658904768367535,Emergency_Hospital
+South Cumberland Community Care Centre,45.409087171378324,-64.32593916226105,Emergency_Hospital
+Annapolis Community Health Centre,44.73657466491257,-65.50180436685771,Emergency_Hospital
+Digby General Hospital,44.616533787903755,-65.76166737432966,Emergency_Hospital
+Fishermen's Memorial Hospital,44.3822758294343,-64.32695243762808,Emergency_Hospital
+Queens General Hospital,44.03765341536023,-64.70559426892093,Emergency_Hospital
+Roseway Hospital,43.74999033372275,-65.30953110510069,Emergency_Hospital
+Soldiers' Memorial Hospital,44.94673391509305,-65.05933935701924,Emergency_Hospital
+South Shore Regional Hospital,44.38313653214071,-64.51077334456812,Emergency_Hospital
+Valley Regional Hospital,45.08266472523682,-64.500889798259,Emergency_Hospital
+Yarmouth Regional Hospital,43.850524495228235,-66.12156874783281,Emergency_Hospital
+Additional_1,44.95940023340247,-64.75583282994057,Additional_EMS
+Additional_2,45.25626235434808,-63.131274069686604,Additional_EMS
+Additional_3,46.05644529118825,-61.31325537552723,Additional_EMS
+Additional_4,43.92662092653887,-65.71760926031237,Additional_EMS
+Additional_5,45.09868739790781,-63.70148671693974,Additional_EMS
+Additional_6,44.18113374085015,-64.96685132351618,Additional_EMS
+Additional_7,45.51762292288424,-62.383834500706485,Additional_EMS
+Additional_8,46.63887063350517,-60.54756008829008,Additional_EMS
+Additional_9,44.67665425994291,-64.35269344035068,Additional_EMS
+Additional_10,45.84868177376198,-64.00320340197788,Additional_EMS
+Additional_11,45.959925604049275,-60.61885057720465,Additional_EMS
+Additional_12,45.573956119940426,-61.75142489356803,Additional_EMS
+Additional_13,44.40204860767803,-65.72237758721782,Additional_EMS
+Additional_14,45.549000090167056,-63.26512021212877,Additional_EMS
+Additional_15,43.955529051414025,-66.00101740842786,Additional_EMS
+Additional_16,44.618161056599654,-65.16437158071518,Additional_EMS
+Additional_17,45.540990520459104,-61.02415501268266,Additional_EMS
+Additional_18,45.66095611235854,-62.92825929702166,Additional_EMS
+Additional_19,45.50067599659516,-64.57032754899332,Additional_EMS
+Additional_20,45.70426380789604,-63.6214126447471,Additional_EMS
+Additional_21,43.64389006997893,-65.58084197925176,Additional_EMS
+Additional_22,46.490068227758144,-60.9354861348657,Additional_EMS
+Additional_23,44.21447935218582,-66.0006033041922,Additional_EMS
+Additional_24,45.44128299680788,-62.71531191453252,Additional_EMS
+Additional_25,45.469672548924045,-63.78019321556339,Additional_EMS
+Additional_26,44.861839079786314,-65.2304293166785,Additional_EMS
+Additional_27,45.19109465178321,-62.16954145055515,Additional_EMS
+Additional_28,45.08941131774453,-63.48914283983631,Additional_EMS
+Additional_29,45.819477291955316,-61.27412686565686,Additional_EMS
+Additional_30,43.70192418872189,-65.1182362763485,Additional_EMS
+Additional_31,45.70089652603455,-60.58966770322106,Additional_EMS
+Additional_32,45.13335010549164,-63.34790005454361,Additional_EMS
+Additional_33,45.96233664746333,-61.135404471990064,Additional_EMS
+Additional_34,45.731570522800695,-63.86566832518517,Additional_EMS
+Additional_35,43.447297434868034,-65.63654775291435,Additional_EMS
+Additional_36,45.04807507667779,-64.7338157057251,Additional_EMS
+Additional_37,45.69565389866044,-60.76696451981847,Additional_EMS
+Additional_38,45.02293232149758,-62.760667153092214,Additional_EMS
+Additional_39,44.333866344783914,-64.9019973268954,Additional_EMS
