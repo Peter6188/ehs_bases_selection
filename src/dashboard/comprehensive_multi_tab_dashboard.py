@@ -5,9 +5,8 @@ Combines all analyses into a single tabbed interface:
 - Tab 1: Three-Method Comparison Overview
 - Tab 2: Method 1: Population-Only Analysis
 - Tab 3: Method 2: Emergency Hospital Co-located Analysis
-- Tab 4: Method 3: Hospital-Performance-Integrated Analysis
-- Tab 5: Method 3: 100% Coverage Extension Analysis
-- Tab 6: Final Recommendations & Summary
+- Tab 4: Method 3: Hospital Performance-Integrated Analysis
+- Tab 5: Strategic Recommendations
 """
 
 import dash
@@ -54,17 +53,15 @@ method1_ems, method2_ems, method3_ems, emergency_hospitals, pop_df = load_all_da
 method1_coverage = 100.0
 method2_coverage = 100.0
 method3_coverage = 96.7
-method3_extended_bases = 126  # From 100% coverage analysis
-method3_additional_needed = 81
 
 # Create comparison charts
 def create_overview_charts():
     """Create overview comparison charts"""
     
-    # Chart 1: Base count comparison (including Method 3 extended)
-    methods = ['Method 1\n(Population-Only)', 'Method 2\n(Emergency Hospital\nCo-located)', 'Method 3\n(Hospital-Integrated\n96.7%)', 'Method 3 Extended\n(100% Coverage)']
-    base_counts = [len(method1_ems), len(method2_ems), len(method3_ems), method3_extended_bases]
-    colors = ['#1f77b4', '#2ca02c', '#ff7f0e', '#d62728']
+    # Chart 1: Base count comparison
+    methods = ['Method 1\n(Population-Only)', 'Method 2\n(Emergency Hospital\nCo-located)', 'Method 3\n(Hospital-Integrated\n96.7%)']
+    base_counts = [len(method1_ems), len(method2_ems), len(method3_ems)]
+    colors = ['#1f77b4', '#2ca02c', '#ff7f0e']
     
     fig1 = go.Figure(data=[
         go.Bar(
@@ -105,8 +102,7 @@ def create_overview_charts():
     efficiencies = [
         method1_coverage / len(method1_ems),
         method2_coverage / len(method2_ems),
-        method3_coverage / len(method3_ems),
-        100.0 / method3_extended_bases
+        method3_coverage / len(method3_ems)
     ]
     
     fig3 = go.Figure(data=[
@@ -231,20 +227,7 @@ def create_overview_tab():
                         html.P(f"{method3_coverage:.1f}% Coverage", className="text-center text-success")
                     ])
                 ], color="warning", outline=True)
-            ], width=3),
-            
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.H4("Method 3 Extended", className="text-danger text-center"),
-                        html.H5("100% Coverage", className="text-center text-muted"),
-                        html.H2(f"{method3_extended_bases}", className="text-center"),
-                        html.P("EMS Bases", className="text-center"),
-                        html.P(f"(+{method3_additional_needed} additional)", className="text-center text-muted small"),
-                        html.P("100.0% Coverage", className="text-center text-success")
-                    ])
-                ], color="danger", outline=True)
-            ], width=3),
+            ], width=4),
         ], className="mb-4"),
         
         # Comparison charts
@@ -303,16 +286,6 @@ def create_overview_tab():
                                 ], className="small")
                             ], width=3),
                             
-                            dbc.Col([
-                                html.H6("⚠️ Least Efficient (100% Coverage)", className="text-danger"),
-                                html.P("Method 3 Extended: 126 bases (0.79% coverage per base)", className="fw-bold"),
-                                html.Ul([
-                                    html.Li("Requires 81 additional bases for 100%"),
-                                    html.Li("66% more bases than Method 2"),
-                                    html.Li("Not optimized for complete coverage"),
-                                    html.Li("Only use if performance is critical")
-                                ], className="small")
-                            ], width=3)
                         ])
                     ])
                 ])
@@ -613,156 +586,6 @@ def create_method3_tab():
         ])
     ], fluid=True)
 
-def create_method3_extension_tab():
-    """Create Method 3 100% coverage extension analysis tab"""
-    return dbc.Container([
-        dbc.Row([
-            dbc.Col([
-                html.H2("🚀 Method 3: 100% Coverage Extension Analysis", className="text-center mb-4"),
-                dbc.Alert([
-                    html.H5("📈 EXTENDING METHOD 3 TO COMPLETE COVERAGE", className="alert-heading"),
-                    html.P("Analysis of additional bases required to extend Method 3 from 96.7% to 100% coverage", className="mb-0")
-                ], color="danger", className="mb-3")
-            ])
-        ]),
-        
-        # Extension metrics
-        dbc.Row([
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.H3("45", className="text-center text-warning"),
-                        html.P("Original Method 3", className="text-center"),
-                        html.P("96.7% Coverage", className="text-center text-muted small")
-                    ])
-                ], color="warning", outline=True)
-            ], width=2),
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.H3("81", className="text-center text-danger"),
-                        html.P("Additional Bases", className="text-center"),
-                        html.P("For 100% Coverage", className="text-center text-muted small")
-                    ])
-                ], color="danger", outline=True)
-            ], width=2),
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.H3("126", className="text-center text-dark"),
-                        html.P("Total Bases", className="text-center"),
-                        html.P("45 + 81", className="text-center text-muted small")
-                    ])
-                ], color="dark", outline=True)
-            ], width=2),
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.H3("66%", className="text-center text-danger"),
-                        html.P("More than Method 2", className="text-center"),
-                        html.P("126 vs 76", className="text-center text-muted small")
-                    ])
-                ], color="danger", outline=True)
-            ], width=2),
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.H3("58%", className="text-center text-warning"),
-                        html.P("More than Method 1", className="text-center"),
-                        html.P("126 vs 80", className="text-center text-muted small")
-                    ])
-                ], color="warning", outline=True)
-            ], width=2),
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardBody([
-                        html.H3("0.79", className="text-center text-danger"),
-                        html.P("Coverage % per Base", className="text-center"),
-                        html.P("Least Efficient", className="text-center text-muted small")
-                    ])
-                ], color="danger", outline=True)
-            ], width=2),
-        ], className="mb-4"),
-        
-        # Comparison table
-        dbc.Row([
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardHeader(html.H5("📊 100% Coverage Comparison")),
-                    dbc.CardBody([
-                        dash_table.DataTable(
-                            data=[
-                                {
-                                    'Method': 'Method 1 (Population-Only)',
-                                    'Total Bases': 80,
-                                    'Coverage': '100%',
-                                    'Efficiency': '1.25% per base',
-                                    'Strategy': 'Pure population optimization'
-                                },
-                                {
-                                    'Method': 'Method 2 (Hospital Co-located)',
-                                    'Total Bases': 76,
-                                    'Coverage': '100%',
-                                    'Efficiency': '1.32% per base',
-                                    'Strategy': 'Leverage existing hospitals'
-                                },
-                                {
-                                    'Method': 'Method 3 Extended',
-                                    'Total Bases': 126,
-                                    'Coverage': '100%',
-                                    'Efficiency': '0.79% per base',
-                                    'Strategy': 'Performance-optimized extension'
-                                }
-                            ],
-                            columns=[
-                                {'name': 'Method', 'id': 'Method'},
-                                {'name': 'Total Bases', 'id': 'Total Bases'},
-                                {'name': 'Coverage', 'id': 'Coverage'},
-                                {'name': 'Efficiency', 'id': 'Efficiency'},
-                                {'name': 'Strategy', 'id': 'Strategy'}
-                            ],
-                            style_cell={'textAlign': 'left'},
-                            style_data_conditional=[
-                                {
-                                    'if': {'row_index': 1},
-                                    'backgroundColor': '#d4edda',
-                                    'color': 'black',
-                                },
-                                {
-                                    'if': {'row_index': 2},
-                                    'backgroundColor': '#f8d7da',
-                                    'color': 'black',
-                                }
-                            ]
-                        )
-                    ])
-                ])
-            ], width=8),
-            dbc.Col([
-                dbc.Card([
-                    dbc.CardHeader(html.H5("🔍 Key Insights")),
-                    dbc.CardBody([
-                        html.H6("❌ Method 3 Extension Issues", className="text-danger"),
-                        html.Ul([
-                            html.Li("Requires 66% more bases than Method 2"),
-                            html.Li("Lowest efficiency for 100% coverage"),
-                            html.Li("Not optimized for complete coverage"),
-                            html.Li("Significantly higher implementation cost")
-                        ], className="small"),
-                        
-                        html.H6("✅ Better Alternatives", className="text-success mt-3"),
-                        html.Ul([
-                            html.Li("Method 2: Most efficient for 100%"),
-                            html.Li("Method 1: Traditional complete coverage"),
-                            html.Li("Stick with Method 3 at 96.7% coverage"),
-                            html.Li("Use Method 3 + targeted additions")
-                        ], className="small")
-                    ])
-                ])
-            ], width=4)
-        ])
-    ], fluid=True)
-
 def create_recommendations_tab():
     """Create final recommendations and summary tab"""
     return dbc.Container([
@@ -914,7 +737,6 @@ app.layout = dbc.Container([
         dbc.Tab(label="📈 Method 1: Population-Only", tab_id="method1"),
         dbc.Tab(label="🏥 Method 2: Hospital Co-located", tab_id="method2"),
         dbc.Tab(label="⚡ Method 3: Performance-Integrated", tab_id="method3"),
-        dbc.Tab(label="🚀 Method 3: 100% Extension", tab_id="method3-ext"),
         dbc.Tab(label="🎯 Recommendations", tab_id="recommendations"),
     ], id="tabs", active_tab="overview", className="mb-4"),
     
@@ -932,8 +754,6 @@ def render_tab_content(active_tab):
         return create_method2_tab()
     elif active_tab == "method3":
         return create_method3_tab()
-    elif active_tab == "method3-ext":
-        return create_method3_extension_tab()
     elif active_tab == "recommendations":
         return create_recommendations_tab()
     else:
@@ -944,7 +764,6 @@ if __name__ == '__main__':
     print(f"📊 Method 1: {len(method1_ems)} bases ({method1_coverage:.1f}% coverage)")
     print(f"📊 Method 2: {len(method2_ems)} bases ({method2_coverage:.1f}% coverage)")
     print(f"📊 Method 3: {len(method3_ems)} bases ({method3_coverage:.1f}% coverage)")
-    print(f"📊 Method 3 Extended: {method3_extended_bases} bases (100.0% coverage)")
     print(f"📊 Emergency Services Hospitals: {len(emergency_hospitals)} facilities")
     print("Dashboard running on http://127.0.0.1:8064/")
     app.run_server(debug=True, host='127.0.0.1', port=8064)
