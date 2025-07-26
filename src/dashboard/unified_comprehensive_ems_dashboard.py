@@ -123,6 +123,270 @@ method2_coverage = 100.0
 method3_coverage = 96.7
 
 # Tab content functions
+def create_overview_tab():
+    """Create Project Overview tab"""
+    return dbc.Container([
+        dbc.Row([
+            dbc.Col([
+                html.H2("📋 Project Overview", className="text-center mb-4"),
+                dbc.Alert([
+                    html.H4("🚑 Emergency Medical Services (EMS) Base Location Optimization", className="alert-heading"),
+                    html.P("A comprehensive analysis of optimal EMS base placement strategies for Nova Scotia using population demographics, hospital infrastructure, and performance data.", className="mb-0")
+                ], color="primary", className="mb-4")
+            ])
+        ]),
+        
+        # Project Introduction
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🎯 Project Objectives", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        html.P("This capstone project addresses the critical challenge of optimizing Emergency Medical Services (EMS) base locations across Nova Scotia to improve emergency response times, ensure comprehensive population coverage, and maximize resource efficiency.", className="mb-3"),
+                        
+                        html.H6("Primary Goals:", className="text-primary"),
+                        html.Ul([
+                            html.Li("Develop and compare three distinct optimization methodologies for EMS base placement"),
+                            html.Li("Analyze current emergency health services performance and identify improvement opportunities"),
+                            html.Li("Evaluate the integration of existing hospital infrastructure with EMS operations"),
+                            html.Li("Provide evidence-based recommendations for strategic EMS deployment"),
+                            html.Li("Establish a framework for future advanced optimization research")
+                        ], className="mb-3"),
+                        
+                        html.H6("Key Research Questions:", className="text-success"),
+                        html.Ul([
+                            html.Li("What is the optimal number and placement of EMS bases to achieve maximum population coverage?"),
+                            html.Li("How can existing emergency hospital infrastructure be leveraged to improve EMS efficiency?"),
+                            html.Li("What are the trade-offs between coverage completeness, resource requirements, and implementation costs?"),
+                            html.Li("How do different optimization algorithms perform under various constraints and objectives?")
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mb-4"),
+        
+        # Data Sources Overview
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("📊 Data Sources & Analytics Platform", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        html.P("This analysis integrates multiple healthcare and demographic datasets to provide comprehensive insights into emergency services optimization.", className="mb-3"),
+                        
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("🏥 Healthcare Infrastructure", className="text-primary"),
+                                html.Ul([
+                                    html.Li("Emergency Health Services (EHS) performance data"),
+                                    html.Li("Hospital locations and emergency service capabilities"),
+                                    html.Li("Response time and ED offload interval metrics"),
+                                    html.Li("Geographic distribution of healthcare facilities")
+                                ], className="small mb-3"),
+                                
+                                html.H6("🗺️ Geographic & Population Data", className="text-success"),
+                                html.Ul([
+                                    html.Li("Nova Scotia community population statistics"),
+                                    html.Li("Geographic coordinates and spatial relationships"),
+                                    html.Li("Population density and distribution patterns"),
+                                    html.Li("Community-level demographic characteristics")
+                                ], className="small")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("📈 Analytical Methods", className="text-warning"),
+                                html.Ul([
+                                    html.Li("K-means clustering for optimal base placement"),
+                                    html.Li("Spatial analysis and coverage optimization"),
+                                    html.Li("Multi-criteria decision analysis"),
+                                    html.Li("Performance benchmarking and comparison"),
+                                    html.Li("Interactive visualization and dashboarding")
+                                ], className="small mb-3"),
+                                
+                                html.H6("💻 Technology Stack", className="text-info"),
+                                html.Ul([
+                                    html.Li("Python for data processing and analysis"),
+                                    html.Li("Pandas for data manipulation and statistics"),
+                                    html.Li("Plotly and Dash for interactive visualizations"),
+                                    html.Li("Scikit-learn for machine learning algorithms"),
+                                    html.Li("GeoPandas for spatial data operations")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mb-4"),
+        
+        # Dataset Descriptions
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("📁 Dataset Descriptions", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Card([
+                                    dbc.CardBody([
+                                        html.H6("🚑 Emergency Health Services (EHS) Data", className="text-primary"),
+                                        html.P("Comprehensive performance metrics for emergency medical services across Nova Scotia.", className="small mb-2"),
+                                        html.Ul([
+                                            html.Li(f"Records: {len(ehs_df):,} performance measurements"),
+                                            html.Li("Metrics: ED Offload Intervals, EHS Response Times"),
+                                            html.Li("Time Period: Multi-year longitudinal data"),
+                                            html.Li("Geographic Coverage: Province-wide zones"),
+                                            html.Li("Performance Indicators: Response efficiency and hospital coordination")
+                                        ], className="small")
+                                    ])
+                                ], outline=True, color="primary")
+                            ], width=6),
+                            dbc.Col([
+                                dbc.Card([
+                                    dbc.CardBody([
+                                        html.H6("🏥 Hospital Infrastructure Data", className="text-success"),
+                                        html.P("Geographic and operational information for emergency-capable hospitals.", className="small mb-2"),
+                                        html.Ul([
+                                            html.Li(f"Facilities: {len(emergency_hospitals)} emergency hospitals"),
+                                            html.Li("Format: GeoJSON with precise coordinates"),
+                                            html.Li("Attributes: Location, emergency service capabilities"),
+                                            html.Li("Coverage: Existing healthcare infrastructure"),
+                                            html.Li("Integration: EMS co-location opportunities")
+                                        ], className="small")
+                                    ])
+                                ], outline=True, color="success")
+                            ], width=6)
+                        ], className="mb-3"),
+                        
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Card([
+                                    dbc.CardBody([
+                                        html.H6("👥 Population Demographics", className="text-warning"),
+                                        html.P("Community-level population data for service demand modeling.", className="small mb-2"),
+                                        html.Ul([
+                                            html.Li(f"Communities: {len(pop_df)} Nova Scotia localities"),
+                                            html.Li(f"Total Population: {pop_df['C1_COUNT_TOTAL'].sum():,} residents"),
+                                            html.Li("Demographics: Total population counts by community"),
+                                            html.Li("Geographic: Coordinates for spatial analysis"),
+                                            html.Li("Coverage: Complete provincial representation")
+                                        ], className="small")
+                                    ])
+                                ], outline=True, color="warning")
+                            ], width=6),
+                            dbc.Col([
+                                dbc.Card([
+                                    dbc.CardBody([
+                                        html.H6("📍 Optimized EMS Locations", className="text-info"),
+                                        html.P("Algorithm-generated optimal base placements for different strategies.", className="small mb-2"),
+                                        html.Ul([
+                                            html.Li(f"Method 1: {len(method1_ems)} population-optimized bases"),
+                                            html.Li(f"Method 2: {len(method2_ems)} hospital-integrated bases"),
+                                            html.Li(f"Method 3: {len(method3_ems)} performance-optimized bases"),
+                                            html.Li("Algorithms: K-means clustering and optimization"),
+                                            html.Li("Validation: Coverage analysis and efficiency metrics")
+                                        ], className="small")
+                                    ])
+                                ], outline=True, color="info")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mb-4"),
+        
+        # Methodology Summary
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🔬 Methodology Summary", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("📈 Method 1: Population-Only Optimization", className="text-primary"),
+                                html.P("Traditional K-means clustering approach focusing on population density distribution.", className="small mb-2"),
+                                html.Ul([
+                                    html.Li("80 bases for complete coverage"),
+                                    html.Li("Population-weighted centroids"),
+                                    html.Li("100% coverage guarantee"),
+                                    html.Li("Established optimization approach")
+                                ], className="small")
+                            ], width=4),
+                            dbc.Col([
+                                html.H6("🏥 Method 2: Hospital Co-located", className="text-success"),
+                                html.P("Infrastructure-leveraging approach using existing emergency hospitals as base locations.", className="small mb-2"),
+                                html.Ul([
+                                    html.Li("76 total bases (37 hospitals + 39 strategic)"),
+                                    html.Li("Existing infrastructure utilization"),
+                                    html.Li("Strategic gap-filling optimization"),
+                                    html.Li("Cost-effective implementation")
+                                ], className="small")
+                            ], width=4),
+                            dbc.Col([
+                                html.H6("⚡ Method 3: Performance-Integrated", className="text-warning"),
+                                html.P("Advanced optimization incorporating hospital performance metrics and efficiency targets.", className="small mb-2"),
+                                html.Ul([
+                                    html.Li("45 bases (most efficient)"),
+                                    html.Li("Performance data integration"),
+                                    html.Li("96.7% coverage optimization"),
+                                    html.Li("Resource efficiency focus")
+                                ], className="small")
+                            ], width=4)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mb-4"),
+        
+        # Navigation Guide
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🧭 Dashboard Navigation", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        html.P("This dashboard provides comprehensive analysis across multiple tabs. Each section offers detailed insights into different aspects of EMS optimization:", className="mb-3"),
+                        
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("📊 Status Quo", className="text-primary"),
+                                html.P("Current EHS performance analysis with response times and ED offload metrics", className="small"),
+                                
+                                html.H6("📈 Method 1", className="text-primary"),
+                                html.P("Population-only K-means optimization with 80 bases", className="small"),
+                                
+                                html.H6("🏥 Method 2", className="text-primary"),
+                                html.P("Hospital co-located approach with infrastructure leverage", className="small"),
+                                
+                                html.H6("⚡ Method 3", className="text-primary"),
+                                html.P("Performance-integrated optimization with 45 efficient bases", className="small")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("📊 Method Comparison", className="text-success"),
+                                html.P("Side-by-side analysis of all three optimization approaches", className="small"),
+                                
+                                html.H6("🎯 Strategic Recommendations", className="text-success"),
+                                html.P("Evidence-based guidance for EMS deployment decisions", className="small"),
+                                
+                                html.H6("🔮 Next Steps", className="text-success"),
+                                html.P("Future research opportunities and advanced methodology roadmap", className="small"),
+                                
+                                html.H6("📋 Overview", className="text-success"),
+                                html.P("This introduction to project objectives and data sources", className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ])
+    ], fluid=True)
+
 def create_status_quo_tab():
     """Create Status Quo analysis tab"""
     
@@ -1361,14 +1625,15 @@ app.layout = dbc.Container([
     ]),
     
     dbc.Tabs([
-        dbc.Tab(label="📊 Status Quo", tab_id="status-quo", active_tab_style={"background-color": "#007bff", "color": "white"}),
-        dbc.Tab(label="📈 Method 1: Population-Only", tab_id="method1"),
+        dbc.Tab(label="� Overview", tab_id="overview", active_tab_style={"background-color": "#007bff", "color": "white"}),
+        dbc.Tab(label="� Status Quo", tab_id="status-quo"),
+        dbc.Tab(label="�📈 Method 1: Population-Only", tab_id="method1"),
         dbc.Tab(label="🏥 Method 2: Hospital Co-located", tab_id="method2"),
         dbc.Tab(label="⚡ Method 3: Hospital-Integrated", tab_id="method3"),
         dbc.Tab(label="📊 Method Comparison", tab_id="comparison"),
         dbc.Tab(label="🎯 Strategic Recommendations", tab_id="recommendations"),
         dbc.Tab(label="🔮 Next Steps", tab_id="next-steps"),
-    ], id="tabs", active_tab="status-quo", className="mb-4"),
+    ], id="tabs", active_tab="overview", className="mb-4"),
     
     html.Div(id="tab-content")
 ], fluid=True)
@@ -1376,7 +1641,9 @@ app.layout = dbc.Container([
 # Callback for tab content
 @app.callback(Output("tab-content", "children"), [Input("tabs", "active_tab")])
 def render_tab_content(active_tab):
-    if active_tab == "status-quo":
+    if active_tab == "overview":
+        return create_overview_tab()
+    elif active_tab == "status-quo":
         return create_status_quo_tab()
     elif active_tab == "method1":
         return create_method1_tab()
@@ -1391,7 +1658,7 @@ def render_tab_content(active_tab):
     elif active_tab == "next-steps":
         return create_next_steps_tab()
     else:
-        return create_status_quo_tab()
+        return create_overview_tab()
 
 if __name__ == '__main__':
     print("🚀 Starting Unified Comprehensive EMS Dashboard...")
