@@ -356,7 +356,60 @@ def create_method1_tab():
                     ])
                 ])
             ], width=4)
-        ])
+        ]),
+        
+        # Technical Details and Assumptions
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🔧 Technical Details & Assumptions", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("📊 Algorithm Specifications", className="text-primary"),
+                                html.Ul([
+                                    html.Li("K-means clustering with k=80 clusters"),
+                                    html.Li("Population-weighted centroids calculation"),
+                                    html.Li("Euclidean distance optimization"),
+                                    html.Li("Random state initialization for reproducibility"),
+                                    html.Li("Maximum 300 iterations for convergence")
+                                ], className="small mb-3"),
+                                
+                                html.H6("📐 Distance & Coverage Assumptions", className="text-warning"),
+                                html.Ul([
+                                    html.Li("15 km maximum service radius per EMS base"),
+                                    html.Li("Haversine distance calculation (great circle)"),
+                                    html.Li("Straight-line distance approximation"),
+                                    html.Li("No road network or traffic considerations"),
+                                    html.Li("Uniform terrain and accessibility assumed")
+                                ], className="small")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("🎯 Optimization Criteria", className="text-success"),
+                                html.Ul([
+                                    html.Li("100% population coverage requirement"),
+                                    html.Li("Minimize within-cluster sum of squares"),
+                                    html.Li("Population density as primary factor"),
+                                    html.Li("Geographic centroid positioning"),
+                                    html.Li("Equal weight for all population centers")
+                                ], className="small mb-3"),
+                                
+                                html.H6("⚙️ Implementation Parameters", className="text-info"),
+                                html.Ul([
+                                    html.Li("Population data: 95 Nova Scotia communities"),
+                                    html.Li("Total population served: 969,383 residents"),
+                                    html.Li("Coverage verification using spatial buffers"),
+                                    html.Li("Cluster validation with silhouette analysis"),
+                                    html.Li("No hospital infrastructure dependencies")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mt-4")
     ], fluid=True)
 
 def create_method2_tab():
@@ -485,7 +538,60 @@ def create_method2_tab():
                     ])
                 ])
             ])
-        ])
+        ]),
+        
+        # Technical Details and Assumptions
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🔧 Technical Details & Assumptions", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("🏥 Hospital Integration Methodology", className="text-primary"),
+                                html.Ul([
+                                    html.Li("37 emergency hospitals as fixed base locations"),
+                                    html.Li("Hospital coordinates from Hospitals.geojson dataset"),
+                                    html.Li("Emergency services capability verification"),
+                                    html.Li("Co-location with existing infrastructure"),
+                                    html.Li("Hospital-EMS coordination protocols assumed")
+                                ], className="small mb-3"),
+                                
+                                html.H6("📐 Distance & Coverage Parameters", className="text-warning"),
+                                html.Ul([
+                                    html.Li("15 km service radius per EMS base"),
+                                    html.Li("Haversine distance for coverage calculation"),
+                                    html.Li("Spatial buffer analysis for gap identification"),
+                                    html.Li("Population-weighted coverage verification"),
+                                    html.Li("No traffic or road network constraints")
+                                ], className="small")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("🎯 Gap-Filling Algorithm", className="text-success"),
+                                html.Ul([
+                                    html.Li("Hospital coverage analysis: 76.6% baseline"),
+                                    html.Li("Uncovered population identification"),
+                                    html.Li("Strategic placement for remaining 23.4%"),
+                                    html.Li("39 additional bases via K-means optimization"),
+                                    html.Li("Complete coverage validation (100%)"),
+                                ], className="small mb-3"),
+                                
+                                html.H6("⚙️ Implementation Specifications", className="text-info"),
+                                html.Ul([
+                                    html.Li("Total bases: 76 (37 hospital + 39 strategic)"),
+                                    html.Li("Coverage verification: all 95 communities"),
+                                    html.Li("Population served: 969,383 residents"),
+                                    html.Li("Infrastructure leverage: existing hospitals"),
+                                    html.Li("Cost optimization through asset utilization")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mt-4")
     ], fluid=True)
 
 def create_method3_tab():
@@ -620,7 +726,60 @@ def create_method3_tab():
                     ])
                 ])
             ])
-        ])
+        ]),
+        
+        # Technical Details and Assumptions
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🔧 Technical Details & Assumptions", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("🧠 Advanced Optimization Algorithm", className="text-primary"),
+                                html.Ul([
+                                    html.Li("Multi-criteria optimization with hospital performance data"),
+                                    html.Li("EHS Response Times and ED Offload intervals integration"),
+                                    html.Li("Population density and hospital proximity weighting"),
+                                    html.Li("Iterative refinement with performance feedback"),
+                                    html.Li("Efficiency-focused base reduction algorithm")
+                                ], className="small mb-3"),
+                                
+                                html.H6("📐 Distance & Coverage Specifications", className="text-warning"),
+                                html.Ul([
+                                    html.Li("15 km maximum service radius per EMS base"),
+                                    html.Li("Haversine distance calculation (spherical Earth)"),
+                                    html.Li("Population-weighted coverage optimization"),
+                                    html.Li("96.7% coverage threshold acceptance"),
+                                    html.Li("Strategic coverage gap analysis")
+                                ], className="small")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("🏥 Performance Data Integration", className="text-success"),
+                                html.Ul([
+                                    html.Li("EHS Response Times: 140 records analyzed"),
+                                    html.Li("ED Offload Intervals: 1,155 records processed"),
+                                    html.Li("Hospital performance scoring methodology"),
+                                    html.Li("Temporal performance trend analysis"),
+                                    html.Li("Multi-zone performance optimization")
+                                ], className="small mb-3"),
+                                
+                                html.H6("⚙️ Implementation Parameters", className="text-info"),
+                                html.Ul([
+                                    html.Li("Target bases: 45 (minimum viable configuration)"),
+                                    html.Li("Coverage achieved: 937,265/969,383 population"),
+                                    html.Li("Efficiency: 2.15% coverage per base"),
+                                    html.Li("Cost savings: 44% fewer bases than Method 1"),
+                                    html.Li("Performance monitoring integration required")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mt-4")
     ], fluid=True)
 
 def create_comparison_tab():
