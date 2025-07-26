@@ -1612,27 +1612,31 @@ app.title = "Unified Comprehensive EMS Optimization Dashboard"
 
 # App layout
 app.layout = dbc.Container([
+    html.Div(style={"height": "30px"}),  # Add spacing at the top
     dbc.Row([
         dbc.Col([
             html.H1("🚑 Unified Comprehensive EMS Optimization Dashboard", className="text-center mb-4"),
             html.H4("Complete Analysis: Status Quo, Optimization Methods, and Strategic Recommendations", 
-                   className="text-center text-muted mb-4"),
-            dbc.Alert([
-                html.H5("📊 COMPREHENSIVE ANALYSIS PLATFORM", className="alert-heading"),
-                html.P("All EMS optimization approaches and strategic guidance in one unified interface", className="mb-0")
-            ], color="info", className="mb-3")
+                   className="text-center text-muted mb-4")
         ])
     ]),
     
     dbc.Tabs([
-        dbc.Tab(label="� Overview", tab_id="overview", active_tab_style={"background-color": "#007bff", "color": "white"}),
-        dbc.Tab(label="� Status Quo", tab_id="status-quo"),
-        dbc.Tab(label="�📈 Method 1: Population-Only", tab_id="method1"),
-        dbc.Tab(label="🏥 Method 2: Hospital Co-located", tab_id="method2"),
-        dbc.Tab(label="⚡ Method 3: Hospital-Integrated", tab_id="method3"),
-        dbc.Tab(label="📊 Method Comparison", tab_id="comparison"),
-        dbc.Tab(label="🎯 Strategic Recommendations", tab_id="recommendations"),
-        dbc.Tab(label="🔮 Next Steps", tab_id="next-steps"),
+        dbc.Tab(label="� Overview", tab_id="overview", active_tab_style={"background-color": "#007bff", "color": "white", "font-weight": "bold", "border": "2px solid #0056b3", "box-shadow": "0 2px 4px rgba(0,123,255,0.3)", "border-radius": "5px 5px 0 0"}),
+        dbc.Tab(label="� Status Quo", tab_id="status-quo",
+                active_tab_style={"background-color": "#007bff", "color": "white", "font-weight": "bold", "border": "2px solid #0056b3", "box-shadow": "0 2px 4px rgba(0,123,255,0.3)", "border-radius": "5px 5px 0 0"}),
+        dbc.Tab(label="�📈 Method 1: Population-Only", tab_id="method1",
+                active_tab_style={"background-color": "#007bff", "color": "white", "font-weight": "bold", "border": "2px solid #0056b3", "box-shadow": "0 2px 4px rgba(0,123,255,0.3)", "border-radius": "5px 5px 0 0"}),
+        dbc.Tab(label="🏥 Method 2: Hospital Co-located", tab_id="method2",
+                active_tab_style={"background-color": "#007bff", "color": "white", "font-weight": "bold", "border": "2px solid #0056b3", "box-shadow": "0 2px 4px rgba(0,123,255,0.3)", "border-radius": "5px 5px 0 0"}),
+        dbc.Tab(label="⚡ Method 3: Hospital-Integrated", tab_id="method3",
+                active_tab_style={"background-color": "#007bff", "color": "white", "font-weight": "bold", "border": "2px solid #0056b3", "box-shadow": "0 2px 4px rgba(0,123,255,0.3)", "border-radius": "5px 5px 0 0"}),
+        dbc.Tab(label="📊 Method Comparison", tab_id="comparison",
+                active_tab_style={"background-color": "#007bff", "color": "white", "font-weight": "bold", "border": "2px solid #0056b3", "box-shadow": "0 2px 4px rgba(0,123,255,0.3)", "border-radius": "5px 5px 0 0"}),
+        dbc.Tab(label="🎯 Strategic Recommendations", tab_id="recommendations",
+                active_tab_style={"background-color": "#007bff", "color": "white", "font-weight": "bold", "border": "2px solid #0056b3", "box-shadow": "0 2px 4px rgba(0,123,255,0.3)", "border-radius": "5px 5px 0 0"}),
+        dbc.Tab(label="🔮 Next Steps", tab_id="next-steps",
+                active_tab_style={"background-color": "#007bff", "color": "white", "font-weight": "bold", "border": "2px solid #0056b3", "box-shadow": "0 2px 4px rgba(0,123,255,0.3)", "border-radius": "5px 5px 0 0"}),
     ], id="tabs", active_tab="overview", className="mb-4"),
     
     html.Div(id="tab-content")
