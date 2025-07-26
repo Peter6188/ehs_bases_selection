@@ -927,6 +927,262 @@ def create_recommendations_tab():
         ])
     ], fluid=True)
 
+def create_next_steps_tab():
+    """Create Next Steps tab showing limitations and future improvements"""
+    return dbc.Container([
+        dbc.Row([
+            dbc.Col([
+                dbc.Alert([
+                    html.H4("🔮 Next Steps & Future Enhancements", className="alert-heading"),
+                    html.P("Identifying limitations and opportunities for advanced EMS optimization", className="mb-0")
+                ], color="info", className="mb-4")
+            ])
+        ]),
+        
+        # Current Limitations Section
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("⚠️ Current Methodology Limitations", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("🗺️ Geographic & Infrastructure Data", className="text-warning"),
+                                html.Ul([
+                                    html.Li("No road network data integration - distances calculated as straight-line (Haversine)"),
+                                    html.Li("Missing traffic pattern analysis and real-time congestion data"),
+                                    html.Li("Terrain and elevation factors not considered"),
+                                    html.Li("Bridge, tunnel, and seasonal accessibility constraints ignored"),
+                                    html.Li("Emergency vehicle routing preferences not incorporated")
+                                ], className="small mb-3"),
+                                
+                                html.H6("👥 Population Demographics", className="text-warning"),
+                                html.Ul([
+                                    html.Li("Only total population counts available - no age stratification"),
+                                    html.Li("Missing health risk profiles and chronic disease prevalence"),
+                                    html.Li("No socioeconomic factors affecting emergency service demand"),
+                                    html.Li("Seasonal population variations (tourism, students) not considered"),
+                                    html.Li("Population density gradients within communities simplified")
+                                ], className="small mb-3")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("🏥 Healthcare System Data", className="text-warning"),
+                                html.Ul([
+                                    html.Li("Hospital capacity and specialization data limited"),
+                                    html.Li("Emergency department surge capacity not modeled"),
+                                    html.Li("Ambulance fleet size and availability patterns missing"),
+                                    html.Li("Staff scheduling and shift patterns not integrated"),
+                                    html.Li("Inter-facility transfer protocols not optimized")
+                                ], className="small mb-3"),
+                                
+                                html.H6("📊 Methodological Constraints", className="text-warning"),
+                                html.Ul([
+                                    html.Li("Static optimization - no dynamic demand modeling"),
+                                    html.Li("Weather and seasonal emergency patterns ignored"),
+                                    html.Li("Limited to K-means clustering algorithm only"),
+                                    html.Li("No machine learning-based demand prediction"),
+                                    html.Li("Cost-benefit analysis lacks detailed financial modeling")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mb-4"),
+        
+        # Data Enhancement Opportunities
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("📈 Proposed Data Enhancements", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("🛣️ Transportation Infrastructure", className="text-success"),
+                                html.Ul([
+                                    html.Li("OpenStreetMap road network integration for realistic travel times"),
+                                    html.Li("Real-time traffic API data (Google Maps, HERE, Waze)"),
+                                    html.Li("Emergency vehicle priority routing algorithms"),
+                                    html.Li("Historical traffic pattern analysis"),
+                                    html.Li("Weather-adjusted travel time modeling")
+                                ], className="small mb-3"),
+                                
+                                html.H6("🏘️ Enhanced Demographic Data", className="text-success"),
+                                html.Ul([
+                                    html.Li("Age-stratified population data (0-17, 18-64, 65+, 75+)"),
+                                    html.Li("Chronic disease prevalence by community"),
+                                    html.Li("Socioeconomic indicators affecting emergency utilization"),
+                                    html.Li("Seasonal population variations and tourism patterns"),
+                                    html.Li("High-density housing and vulnerable population mapping")
+                                ], className="small")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("🏥 Healthcare System Intelligence", className="text-success"),
+                                html.Ul([
+                                    html.Li("Hospital emergency department capacity and specializations"),
+                                    html.Li("Ambulance fleet composition and deployment schedules"),
+                                    html.Li("Historical emergency call volume patterns"),
+                                    html.Li("Staff availability and shift scheduling optimization"),
+                                    html.Li("Inter-facility transfer network analysis")
+                                ], className="small mb-3"),
+                                
+                                html.H6("🌦️ Environmental & Temporal Factors", className="text-success"),
+                                html.Ul([
+                                    html.Li("Weather pattern impact on emergency demand"),
+                                    html.Li("Day-of-week and seasonal emergency variations"),
+                                    html.Li("Special event and festival emergency planning"),
+                                    html.Li("Industrial accident and hazmat risk zones"),
+                                    html.Li("Wildfire, flood, and natural disaster risk mapping")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mb-4"),
+        
+        # Advanced Methodology Section
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🤖 Advanced Optimization Algorithms", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("🧠 Machine Learning Approaches", className="text-info"),
+                                html.Ul([
+                                    html.Li("Gradient Boosting (XGBoost, LightGBM) for demand prediction"),
+                                    html.Li("Neural networks for complex spatial-temporal patterns"),
+                                    html.Li("Reinforcement learning for dynamic resource allocation"),
+                                    html.Li("Deep learning for real-time emergency classification"),
+                                    html.Li("Ensemble methods combining multiple prediction models")
+                                ], className="small mb-3"),
+                                
+                                html.H6("🔬 Operations Research Methods", className="text-info"),
+                                html.Ul([
+                                    html.Li("Mixed Integer Programming for optimal facility location"),
+                                    html.Li("Genetic algorithms for multi-objective optimization"),
+                                    html.Li("Simulated annealing for large-scale combinatorial problems"),
+                                    html.Li("Queuing theory for ambulance dispatch optimization"),
+                                    html.Li("Stochastic programming for uncertainty modeling")
+                                ], className="small")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("📊 Advanced Clustering & Spatial Analysis", className="text-info"),
+                                html.Ul([
+                                    html.Li("DBSCAN for density-based population clustering"),
+                                    html.Li("Hierarchical clustering for multi-level service areas"),
+                                    html.Li("Gaussian Mixture Models for probabilistic coverage"),
+                                    html.Li("Voronoi diagrams for service area optimization"),
+                                    html.Li("Network analysis for transportation connectivity")
+                                ], className="small mb-3"),
+                                
+                                html.H6("⏱️ Dynamic & Real-Time Optimization", className="text-info"),
+                                html.Ul([
+                                    html.Li("Real-time demand forecasting with streaming data"),
+                                    html.Li("Dynamic ambulance repositioning algorithms"),
+                                    html.Li("Multi-agent systems for decentralized coordination"),
+                                    html.Li("Predictive analytics for proactive resource deployment"),
+                                    html.Li("Digital twin modeling for scenario testing")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mb-4"),
+        
+        # Implementation Roadmap
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🗺️ Implementation Roadmap", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Badge("Phase 1: Data Collection", color="primary", className="mb-2 d-block"),
+                                html.Ul([
+                                    html.Li("Acquire road network and traffic data"),
+                                    html.Li("Collect detailed demographic and health statistics"),
+                                    html.Li("Gather hospital capacity and ambulance fleet data"),
+                                    html.Li("Establish data governance and quality protocols")
+                                ], className="small mb-3"),
+                                
+                                dbc.Badge("Phase 2: Infrastructure Development", color="warning", className="mb-2 d-block"),
+                                html.Ul([
+                                    html.Li("Build real-time data integration pipelines"),
+                                    html.Li("Develop cloud-based analytics platform"),
+                                    html.Li("Create machine learning model training infrastructure"),
+                                    html.Li("Establish API connections with traffic and weather services")
+                                ], className="small")
+                            ], width=6),
+                            dbc.Col([
+                                dbc.Badge("Phase 3: Advanced Analytics", color="success", className="mb-2 d-block"),
+                                html.Ul([
+                                    html.Li("Implement machine learning demand prediction models"),
+                                    html.Li("Deploy advanced optimization algorithms"),
+                                    html.Li("Build real-time decision support systems"),
+                                    html.Li("Create predictive maintenance and resource planning")
+                                ], className="small mb-3"),
+                                
+                                dbc.Badge("Phase 4: Operational Integration", color="info", className="mb-2 d-block"),
+                                html.Ul([
+                                    html.Li("Pilot test with select EMS regions"),
+                                    html.Li("Train staff on new optimization tools"),
+                                    html.Li("Establish performance monitoring and feedback loops"),
+                                    html.Li("Scale to province-wide implementation")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ], className="mb-4"),
+        
+        # Expected Outcomes
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H5("🎯 Expected Outcomes & Benefits", className="mb-0")
+                    ]),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                html.H6("📈 Performance Improvements", className="text-success"),
+                                html.Ul([
+                                    html.Li("15-25% reduction in average response times"),
+                                    html.Li("20-30% improvement in population coverage efficiency"),
+                                    html.Li("10-20% reduction in ED offload intervals"),
+                                    html.Li("Enhanced resource utilization and cost savings"),
+                                    html.Li("Improved patient outcomes and satisfaction")
+                                ], className="small")
+                            ], width=6),
+                            dbc.Col([
+                                html.H6("🔬 Research & Innovation", className="text-info"),
+                                html.Ul([
+                                    html.Li("Publication opportunities in healthcare operations research"),
+                                    html.Li("Collaboration with international EMS optimization experts"),
+                                    html.Li("Development of open-source optimization tools"),
+                                    html.Li("Knowledge transfer to other provinces and countries"),
+                                    html.Li("Contribution to evidence-based emergency services policy")
+                                ], className="small")
+                            ], width=6)
+                        ])
+                    ])
+                ])
+            ])
+        ])
+    ], fluid=True)
+
 # Initialize Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Unified Comprehensive EMS Optimization Dashboard"
@@ -952,6 +1208,7 @@ app.layout = dbc.Container([
         dbc.Tab(label="⚡ Method 3: Hospital-Integrated", tab_id="method3"),
         dbc.Tab(label="📊 Method Comparison", tab_id="comparison"),
         dbc.Tab(label="🎯 Strategic Recommendations", tab_id="recommendations"),
+        dbc.Tab(label="🔮 Next Steps", tab_id="next-steps"),
     ], id="tabs", active_tab="status-quo", className="mb-4"),
     
     html.Div(id="tab-content")
@@ -972,6 +1229,8 @@ def render_tab_content(active_tab):
         return create_comparison_tab()
     elif active_tab == "recommendations":
         return create_recommendations_tab()
+    elif active_tab == "next-steps":
+        return create_next_steps_tab()
     else:
         return create_status_quo_tab()
 
